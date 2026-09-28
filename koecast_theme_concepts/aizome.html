@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>藍染 Aizome — theme concept</title>
+
+<!--
+  Standalone on purpose: open it from disk, no build step, no dev server.
+  Tailwind v4 from a CDN so the token plumbing matches src/app/tokens.css.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @custom-variant dark (&:is(.dark *));
+
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-border: var(--border);
+    --color-ring: var(--ring);
+    --color-destructive: var(--destructive);
+    --color-warning: var(--warning);
+    --color-wave-played: var(--wave-played);
+    --color-wave-rest: var(--wave-rest);
+    --color-wave-cursor: var(--wave-cursor);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-md: calc(var(--radius) * 0.8);
+  }
+
+  :root {
+    --background: oklch(0.975 0.007 85);
+    --foreground: oklch(0.21 0.020 255);
+    --card: oklch(0.992 0.004 85);
+    --card-foreground: oklch(0.21 0.020 255);
+    --primary: oklch(0.42 0.090 250);
+    --primary-foreground: oklch(0.98 0.005 250);
+    --muted: oklch(0.945 0.010 250);
+    --muted-foreground: oklch(0.50 0.030 250);
+    --accent: oklch(0.93 0.022 250);
+    --accent-foreground: oklch(0.36 0.080 250);
+    --border: oklch(0.90 0.014 250);
+    --ring: oklch(0.55 0.080 250);
+    --destructive: oklch(0.55 0.19 27);
+    --warning: oklch(0.52 0.12 72);
+    --wave-played: oklch(0.42 0.090 250);
+    --wave-rest: oklch(0.82 0.020 250);
+    --wave-cursor: oklch(0.55 0.150 35);
+  }
+
+  .dark {
+    --background: oklch(0.18 0.030 255);
+    --foreground: oklch(0.93 0.010 250);
+    --card: oklch(0.225 0.035 255);
+    --card-foreground: oklch(0.93 0.010 250);
+    --primary: oklch(0.72 0.100 245);
+    --primary-foreground: oklch(0.18 0.030 255);
+    --muted: oklch(0.27 0.030 255);
+    --muted-foreground: oklch(0.70 0.020 250);
+    --accent: oklch(0.30 0.040 253);
+    --accent-foreground: oklch(0.90 0.030 248);
+    --border: oklch(0.95 0.010 250 / 12%);
+    --ring: oklch(0.60 0.080 248);
+    --destructive: oklch(0.70 0.17 25);
+    --warning: oklch(0.78 0.12 80);
+    --wave-played: oklch(0.75 0.110 245);
+    --wave-rest: oklch(0.38 0.030 255);
+    --wave-cursor: oklch(0.70 0.150 38);
+  }
+
+  :root { --radius: 0.625rem; }
+  body { background: var(--background); color: var(--foreground); }
+</style>
+</head>
+
+<body class="min-h-dvh font-sans antialiased">
+  <div class="mx-auto w-full max-w-4xl px-5 py-10">
+
+    <header class="mb-8 flex flex-wrap items-start justify-between gap-4">
+      <div class="min-w-0">
+        <h1 class="text-2xl font-semibold tracking-tight">
+          <span class="mr-2">藍染</span>Aizome
+        </h1>
+        <p class="mt-1 text-sm text-muted-foreground">Indigo dye on paper</p>
+      </div>
+      <button id="mode"
+        class="cursor-pointer rounded-lg border border-border px-3 py-1.5 text-sm
+               transition-colors hover:bg-muted">
+        Toggle mode
+      </button>
+    </header>
+
+    <nav class="mb-8 flex flex-col gap-2 text-sm">
+      <div class="flex flex-wrap items-center gap-1">
+        <span class="mr-1 text-xs uppercase tracking-wide text-muted-foreground">Warm paper</span>
+          <a href="sumi-e.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">墨絵 Sumi-e</a>
+          <a href="aizome.html" class="rounded-md px-2.5 py-1 bg-primary text-primary-foreground font-medium">藍染 Aizome</a>
+          <a href="kissaten.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">喫茶店 Kissaten</a>
+          <a href="wabi.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">侘 Wabi</a>
+          <a href="kaki.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">柿 Kaki</a>
+      </div>
+      <div class="flex flex-wrap items-center gap-1">
+        <span class="mr-1 text-xs uppercase tracking-wide text-muted-foreground">Styles</span>
+          <a href="yoru.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">夜 Yoru</a>
+          <a href="hanko.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">判子 Hanko</a>
+          <a href="shoji.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">障子 Shoji</a>
+          <a href="koyo.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">紅葉 Kōyō</a>
+          <a href="mizu.html" class="rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground">水 Mizu</a>
+      </div>
+    </nav>
+
+    <p class="mb-2 text-sm leading-relaxed">The same warm paper, with indigo carrying the primary. The most business-credible option that is still distinctly Japanese — and indigo is the oldest trusted colour there is.</p>
+    <p class="mb-2 text-sm leading-relaxed text-muted-foreground">
+      <span class="font-medium text-foreground">Structure:</span> Surfaces are outlined. Closest to the app as it stands.
+      Radius 0.625rem.
+      Opens light.
+    </p>
+    <p class="mb-10 text-sm leading-relaxed text-muted-foreground">
+      <span class="font-medium text-foreground">Risk:</span> Indigo is also every SaaS's blue. The Japanese reading may not survive contact with a viewer who has seen a hundred blue dashboards.
+    </p>
+
+    <h2 class="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      What a client opens
+    </h2>
+
+    <article class="rounded-xl bg-card border border-border shadow-sm p-6">
+      <header class="mb-4 flex items-baseline justify-between gap-4">
+        <h3 class="min-w-0 truncate text-lg font-semibold tracking-tight text-card-foreground">
+          Client update — Tuesday
+        </h3>
+        <span class="shrink-0 text-sm tabular-nums text-muted-foreground">2:14</span>
+      </header>
+
+      <div class="relative py-1" id="wave-a"></div>
+
+      <div class="mt-3 flex items-center gap-1">
+        <button class="inline-flex size-10 items-center justify-center rounded-full
+                       bg-primary text-primary-foreground">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"
+               class="translate-x-px"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="inline-flex size-8 items-center justify-center rounded-full
+                       text-muted-foreground hover:bg-muted hover:text-foreground">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+        </button>
+        <button class="inline-flex size-8 items-center justify-center rounded-full
+                       text-muted-foreground hover:bg-muted hover:text-foreground">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+        </button>
+        <span class="ml-1 text-sm tabular-nums text-muted-foreground">
+          0:52<span class="mx-1 opacity-50">/</span>2:14
+        </span>
+        <div class="ml-auto flex items-center gap-1">
+          <button class="rounded-md px-2 py-1 text-xs font-medium tabular-nums
+                         text-muted-foreground hover:bg-muted hover:text-foreground">1×</button>
+          <button class="inline-flex size-8 items-center justify-center rounded-full
+                         text-muted-foreground hover:bg-muted hover:text-foreground">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+          </button>
+          <button class="inline-flex size-8 items-center justify-center rounded-full
+                         text-muted-foreground hover:bg-muted hover:text-foreground">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <p class="mt-3 text-center text-xs text-muted-foreground">Voice Notes</p>
+
+    <h2 class="mt-12 mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      What Maya sees
+    </h2>
+
+    <div class="divide-y divide-border overflow-hidden rounded-xl border border-border">
+      <div class="flex items-center gap-3 px-4 py-3">
+        <div class="min-w-0 flex-1">
+          <div class="truncate font-medium">Client update — Tuesday</div>
+          <div class="mt-0.5 text-xs text-muted-foreground">2h ago · 2:14</div>
+        </div>
+        <span class="shrink-0 rounded-md border border-primary/40 bg-primary/5 px-1.5 py-0.5
+                     text-xs font-medium text-primary">Ready</span>
+      </div>
+      <div class="flex items-center gap-3 px-4 py-3">
+        <div class="min-w-0 flex-1">
+          <div class="truncate font-medium">Feedback on the draft</div>
+          <div class="mt-0.5 text-xs text-muted-foreground">just now</div>
+        </div>
+        <span class="shrink-0 rounded-md border border-warning/40 bg-warning/5 px-1.5 py-0.5
+                     text-xs font-medium text-warning">Processing</span>
+      </div>
+      <div class="flex items-center gap-3 px-4 py-3">
+        <div class="min-w-0 flex-1">
+          <div class="truncate font-medium">Untitled note</div>
+          <div class="mt-0.5 text-xs text-muted-foreground">3d ago</div>
+        </div>
+        <span class="shrink-0 rounded-md border border-destructive/40 bg-destructive/5 px-1.5 py-0.5
+                     text-xs font-medium text-destructive">Failed</span>
+      </div>
+    </div>
+
+    <h2 class="mt-12 mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      Buttons and notices
+    </h2>
+
+    <div class="mb-4 flex flex-wrap items-center gap-2">
+      <button class="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium
+                     text-primary-foreground hover:opacity-90">Record</button>
+      <button class="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-muted">
+        Copy link
+      </button>
+      <button class="rounded-lg border border-border px-3 py-1.5 text-sm text-destructive
+                     hover:bg-muted">Delete</button>
+      <span class="rounded-md bg-accent px-2 py-1 text-xs font-medium text-accent-foreground">
+        Pro
+      </span>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <div class="flex items-start gap-2 rounded-lg border border-border bg-muted p-3 text-sm
+                  text-muted-foreground">
+        <span>Send this link. It shows a “getting ready” message until the audio is done.</span>
+      </div>
+      <div class="flex items-start gap-2 rounded-lg border border-warning/40 bg-warning/5 p-3
+                  text-sm text-warning">
+        <span>This note isn’t playable yet.</span>
+      </div>
+      <div class="flex items-start gap-2 rounded-lg border border-destructive/40
+                  bg-destructive/5 p-3 text-sm text-destructive">
+        <span>This note couldn’t be prepared.</span>
+      </div>
+    </div>
+
+    <h2 class="mt-12 mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      Paste into <code>src/app/tokens.css</code>
+    </h2>
+    <pre class="overflow-x-auto rounded-xl border border-border bg-muted p-4 text-xs
+                leading-relaxed"><code>/* --- light --- */
+--radius: 0.625rem;
+--background: oklch(0.975 0.007 85);
+--foreground: oklch(0.21 0.020 255);
+--card: oklch(0.992 0.004 85);
+--card-foreground: oklch(0.21 0.020 255);
+--primary: oklch(0.42 0.090 250);
+--primary-foreground: oklch(0.98 0.005 250);
+--muted: oklch(0.945 0.010 250);
+--muted-foreground: oklch(0.50 0.030 250);
+--accent: oklch(0.93 0.022 250);
+--accent-foreground: oklch(0.36 0.080 250);
+--border: oklch(0.90 0.014 250);
+--ring: oklch(0.55 0.080 250);
+--destructive: oklch(0.55 0.19 27);
+--warning: oklch(0.52 0.12 72);
+--wave-played: oklch(0.42 0.090 250);
+--wave-rest: oklch(0.82 0.020 250);
+--wave-cursor: oklch(0.55 0.150 35);
+
+/* --- dark (re-chosen, not flipped) --- */
+--background: oklch(0.18 0.030 255);
+--foreground: oklch(0.93 0.010 250);
+--card: oklch(0.225 0.035 255);
+--card-foreground: oklch(0.93 0.010 250);
+--primary: oklch(0.72 0.100 245);
+--primary-foreground: oklch(0.18 0.030 255);
+--muted: oklch(0.27 0.030 255);
+--muted-foreground: oklch(0.70 0.020 250);
+--accent: oklch(0.30 0.040 253);
+--accent-foreground: oklch(0.90 0.030 248);
+--border: oklch(0.95 0.010 250 / 12%);
+--ring: oklch(0.60 0.080 248);
+--destructive: oklch(0.70 0.17 25);
+--warning: oklch(0.78 0.12 80);
+--wave-played: oklch(0.75 0.110 245);
+--wave-rest: oklch(0.38 0.030 255);
+--wave-cursor: oklch(0.70 0.150 38);</code></pre>
+
+  </div>
+
+<script>
+  const PEAKS = [4, 6, 5, 22, 48, 61, 44, 30, 52, 71, 58, 36, 18, 9, 6, 5, 14, 39, 66, 82, 64, 41, 27, 55, 78, 90, 72, 48, 25, 12, 7, 5, 8, 31, 57, 74, 61, 43, 66, 88, 70, 45, 22, 10, 6, 5, 11, 34, 62, 80, 95, 76, 52, 33, 58, 79, 63, 40, 20, 9, 5, 4, 9, 28, 54, 70, 55, 37, 60, 84, 68, 44, 21, 11, 6, 5, 13, 36, 59, 77, 66, 47, 29, 51, 73, 86, 69, 46, 24, 12, 6, 4, 7, 26, 50, 68, 57, 38, 63, 81, 67, 42, 19, 8, 5, 4, 10, 32, 56, 72, 60, 41, 23, 49, 70, 58, 35, 17, 8, 5];
+  const PLAYED = 0.39;
+
+  function drawWave(el) {
+    const loudest = Math.max(...PEAKS, 1);
+    el.innerHTML =
+      '<div class="flex h-14 items-center gap-px">' +
+      PEAKS.map((p, i) => {
+        const h = Math.max(3, (p / loudest) * 100);
+        const played = i < PEAKS.length * PLAYED;
+        return '<div class="min-h-0.5 flex-1 rounded-full ' +
+          (played ? 'bg-wave-played' : 'bg-wave-rest') +
+          '" style="height:' + h.toFixed(1) + '%"></div>';
+      }).join('') +
+      '</div>' +
+      '<div class="pointer-events-none absolute inset-y-1 w-px bg-wave-cursor" style="left:' +
+      (PLAYED * 100) + '%"></div>';
+  }
+
+  drawWave(document.getElementById('wave-a'));
+
+  const root = document.documentElement;
+  // Each concept declares which mode it opens in; a stored choice wins.
+  const stored = localStorage.getItem('concept-mode');
+  const startDark = stored ? stored === 'dark' : false;
+  if (startDark) root.classList.add('dark');
+
+  document.getElementById('mode').addEventListener('click', () => {
+    root.classList.toggle('dark');
+    localStorage.setItem('concept-mode', root.classList.contains('dark') ? 'dark' : 'light');
+  });
+</script>
+</body>
+</html>

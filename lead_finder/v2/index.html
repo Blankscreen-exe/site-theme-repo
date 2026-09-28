@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeadFinder themes, round 2</title>
+<style>
+  :root { --bg: #fff; --fg: #111; --muted: #666; --rule: #ddd; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #111; --fg: #eee; --muted: #999; --rule: #333; } }
+  body { margin: 0; padding: 40px 16px; background: var(--bg); color: var(--fg);
+    font: 15px/1.5 "Segoe UI", system-ui, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p { color: var(--muted); margin: 0 0 24px; }
+  ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  li { border-bottom: 1px solid var(--rule); }
+  a { display: grid; grid-template-columns: 2.2em 10em 1fr; gap: 12px; padding: 14px 4px;
+    color: inherit; text-decoration: none; }
+  a:hover, a:focus-visible { background: color-mix(in srgb, var(--fg) 6%, transparent); outline: none; }
+  b { font-weight: 600; } span { color: var(--muted); }
+  @media (max-width: 520px) { a { grid-template-columns: 2em 1fr; } a span { grid-column: 2; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>LeadFinder themes, round 2</h1>
+  <p>Same screen in five directions. Each has System / Light / Dark in its corner. Data is synthetic.</p>
+  <ol>
+    <li><a href="swiss.html"><span>01</span><b>Swiss Ledger</b><span>Swiss typographic grid, hairline rules, no boxes, one vermilion signal.</span></a></li>
+    <li><a href="terminal.html"><span>02</span><b>Instrument</b><span>Trading-desk tool: mono data, amber accent, dense tiled panes, shortcuts.</span></a></li>
+    <li><a href="blueprint.html"><span>03</span><b>Blueprint</b><span>Technical drawing: grid paper, ink lines, crop marks, title-block labels.</span></a></li>
+    <li><a href="brutal.html"><span>04</span><b>Hardline</b><span>Disciplined neo-brutalism: thick borders, hard shadows, flat bold colour.</span></a></li>
+    <li><a href="editorial.html"><span>05</span><b>Broadsheet</b><span>Financial-newspaper: serif headlines, column rules, masthead navigation.</span></a></li>
+  </ol>
+</main>
+</body>
+</html>

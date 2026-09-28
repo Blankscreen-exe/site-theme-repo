@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeadFinder — Swiss Ledger</title>
+<meta name="description" content="Design demo: Swiss Ledger direction for the LeadFinder app UI. Synthetic data only.">
+<script>
+  /* Apply the stored theme before first paint to avoid a flash. */
+  (function () {
+    try {
+      var m = localStorage.getItem('lf-swiss-theme');
+      if (m === 'light' || m === 'dark') document.documentElement.setAttribute('data-theme', m);
+    } catch (e) { /* storage unavailable: follow the system */ }
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   1. TOKENS
+   Light is a warm paper white with near-black ink; dark is a warm
+   carbon with bone ink (not an inversion: rules soften, signal lifts).
+   ===================================================================== */
+:root {
+  color-scheme: light;
+  --bg:             #FAFAF7;
+  --bg-sunk:        #F0EFEA;
+  --ink:            #111111;
+  --ink-2:          #4A4A4A;
+  --ink-3:          #666561;
+  --rule:           #111111;
+  --hair:           #D2D0C8;
+  --field-border:   #7A7872;
+  --signal:         #E4371B;
+  --signal-ink:     #C4280E;
+  --signal-on-ink:  #FF5A3C;
+  --signal-wash:    #FBE7E2;
+  --on-signal:      #FFFFFF;
+  --on-ink:         #FAFAF7;
+  --disabled-bg:    #E6E4DE;
+  --disabled-ink:   #6E6C67;
+  --skeleton:       #E3E1DA;
+  --scrim:          #D9D7CF;
+  --focus:          #E4371B;
+
+  --font-sans: "Inter Tight", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --rail-w: 208px;
+  --gutter: 40px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:             #0F0F0E;
+    --bg-sunk:        #181817;
+    --ink:            #EDEBE5;
+    --ink-2:          #B8B5AD;
+    --ink-3:          #95928A;
+    --rule:           #EDEBE5;
+    --hair:           #34332F;
+    --field-border:   #7F7C75;
+    --signal:         #FF5A3C;
+    --signal-ink:     #FF6D52;
+    --signal-on-ink:  #B8250C;
+    --signal-wash:    #2A1511;
+    --on-signal:      #0F0F0E;
+    --on-ink:         #0F0F0E;
+    --disabled-bg:    #242422;
+    --disabled-ink:   #8A877F;
+    --skeleton:       #262624;
+    --scrim:          #1F1F1D;
+    --focus:          #FF5A3C;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:             #0F0F0E;
+  --bg-sunk:        #181817;
+  --ink:            #EDEBE5;
+  --ink-2:          #B8B5AD;
+  --ink-3:          #95928A;
+  --rule:           #EDEBE5;
+  --hair:           #34332F;
+  --field-border:   #7F7C75;
+  --signal:         #FF5A3C;
+  --signal-ink:     #FF6D52;
+  --signal-on-ink:  #B8250C;
+  --signal-wash:    #2A1511;
+  --on-signal:      #0F0F0E;
+  --on-ink:         #0F0F0E;
+  --disabled-bg:    #242422;
+  --disabled-ink:   #8A877F;
+  --skeleton:       #262624;
+  --scrim:          #1F1F1D;
+  --focus:          #FF5A3C;
+}
+
+/* =====================================================================
+   2. BASE
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; border-radius: 0 !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.45;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-bottom: 96px;
+}
+h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+a { color: inherit; }
+button, input, select { font: inherit; color: inherit; }
+.mono { font-family: var(--font-mono); font-size: 13px; letter-spacing: -0.01em; }
+.num  { font-variant-numeric: tabular-nums; }
+.muted { color: var(--ink-3); }
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+::selection { background: var(--signal); color: var(--on-signal); }
+
+/* Status squares: shape carries meaning, color only reinforces it. */
+.sq { display: inline-block; width: 9px; height: 9px; flex: none; vertical-align: 0; }
+.sq--solid  { background: var(--ink); }
+.sq--hollow { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.sq--signal { background: var(--signal); }
+.sq--hatch  { background: repeating-linear-gradient(135deg, var(--ink) 0 1.5px, transparent 1.5px 3.5px); box-shadow: inset 0 0 0 1px var(--ink); }
+.sq--strike { box-shadow: inset 0 0 0 1.5px var(--ink); background: linear-gradient(135deg, transparent 43%, var(--ink) 43% 57%, transparent 57%); }
+.status { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+
+/* =====================================================================
+   3. APP SHELL — top bar + numbered index rail
+   ===================================================================== */
+.skip { position: absolute; left: 8px; top: -60px; background: var(--ink); color: var(--on-ink); padding: 8px 12px; z-index: 10; text-decoration: none; font-weight: 600; }
+.skip:focus { top: 8px; }
+
+.top {
+  display: flex; align-items: stretch; min-height: 56px;
+  border-bottom: 1px solid var(--rule);
+}
+.top > * { display: flex; align-items: center; padding: 0 16px; border-left: 1px solid var(--hair); }
+.top > :first-child { border-left: 0; }
+.brand {
+  width: var(--rail-w); flex: none; gap: 10px; text-decoration: none;
+  font-weight: 700; font-size: 18px; letter-spacing: -0.03em; padding-left: 24px;
+}
+.brand-mark { width: 12px; height: 12px; background: var(--signal); }
+.ws {
+  background: none; border: 0; border-left: 1px solid var(--hair); cursor: pointer; gap: 8px; text-align: left;
+}
+.ws:hover { background: var(--bg-sunk); }
+.ws b { font-weight: 600; }
+.ws svg { width: 10px; height: 10px; }
+.search { flex: 1; position: relative; min-width: 0; }
+.search svg { position: absolute; left: 16px; width: 14px; height: 14px; color: var(--ink-3); pointer-events: none; }
+.search input {
+  width: 100%; height: 56px; border: 0; background: transparent; padding: 0 64px 0 26px; outline-offset: -2px;
+}
+.search input::placeholder { color: var(--ink-3); opacity: 1; }
+.search:hover { background: var(--bg-sunk); }
+kbd {
+  font-family: var(--font-mono); font-size: 11px; color: var(--ink-2);
+  border: 1px solid var(--hair); padding: 1px 5px; white-space: nowrap;
+}
+.search kbd { position: absolute; right: 16px; }
+.credits { gap: 12px; white-space: nowrap; }
+.credits-label { font-size: 12px; line-height: 1.25; }
+.credits-label strong { display: block; font-size: 13px; font-weight: 600; }
+.meter {
+  position: relative; width: 149px; height: 12px;
+  background: repeating-linear-gradient(90deg, var(--hair) 0 2px, transparent 2px 3px);
+}
+.meter::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: calc(3px * var(--used));
+  background: repeating-linear-gradient(90deg, var(--signal) 0 2px, transparent 2px 3px);
+}
+.avatar-cell { padding: 0 12px; }
+.avatar {
+  width: 32px; height: 32px; border: 0; background: var(--ink); color: var(--on-ink);
+  font-weight: 600; font-size: 12px; letter-spacing: 0.02em; cursor: pointer;
+}
+
+.shell { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr); min-height: calc(100vh - 57px); }
+.rail { border-right: 1px solid var(--hair); padding: 24px 0; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; }
+.rail-title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: 0 24px 10px; }
+.index a {
+  display: grid; grid-template-columns: 28px 1fr auto; align-items: baseline;
+  padding: 9px 24px; text-decoration: none; border-top: 1px solid var(--hair);
+}
+.index li:last-child a { border-bottom: 1px solid var(--hair); }
+.index .n { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+.index .c { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.index a:hover { background: var(--bg-sunk); }
+.index a[aria-current="page"] { background: var(--ink); color: var(--on-ink); border-color: var(--ink); font-weight: 600; }
+.index a[aria-current="page"] .n { color: var(--signal-on-ink); font-weight: 500; }
+.index a[aria-current="page"] .c { color: var(--on-ink); }
+.rail-foot { padding: 0 24px; font-size: 12px; color: var(--ink-3); display: grid; gap: 4px; }
+.rail-foot .status { color: var(--ink-2); }
+
+main { padding: 28px var(--gutter) 40px; min-width: 0; }
+
+/* =====================================================================
+   4. PAGE HEADER
+   ===================================================================== */
+.crumbs ol { display: flex; gap: 8px; font-size: 13px; color: var(--ink-3); flex-wrap: wrap; }
+.crumbs li + li::before { content: "/"; margin-right: 8px; color: var(--hair); }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.crumbs [aria-current] { color: var(--ink); }
+
+.page-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px;
+  padding: 20px 0 28px;
+}
+.page-head h1 {
+  font-size: clamp(56px, 8.5vw, 120px); font-weight: 700; letter-spacing: -0.055em; line-height: 0.86;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.page-head h1 sup { font-family: var(--font-mono); font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--signal-ink); line-height: 1; margin-top: 0.6em; }
+.page-head p { margin-top: 16px; max-width: 52ch; color: var(--ink-2); font-size: 16px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* =====================================================================
+   5. BUTTONS & FORM CONTROLS
+   ===================================================================== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 38px; padding: 0 16px; border: 1px solid transparent; cursor: pointer;
+  font-size: 14px; font-weight: 600; letter-spacing: -0.005em; text-decoration: none; white-space: nowrap;
+  transition: background-color .12s, color .12s, border-color .12s;
+}
+.btn svg { width: 14px; height: 14px; }
+.btn--primary   { background: var(--ink); color: var(--on-ink); }
+.btn--primary:hover { background: var(--signal-ink); color: var(--on-signal); }
+.btn--secondary { background: transparent; border-color: var(--ink); color: var(--ink); }
+.btn--secondary:hover { background: var(--ink); color: var(--on-ink); }
+.btn--ghost     { background: transparent; color: var(--ink); padding: 0 10px; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; }
+.btn--ghost:hover { text-decoration-color: currentColor; }
+.btn--danger    { background: var(--signal-ink); color: var(--on-signal); }
+.btn--danger:hover { background: var(--ink); color: var(--on-ink); }
+.btn:disabled, .btn[aria-disabled="true"] { background: var(--disabled-bg); color: var(--disabled-ink); border-color: transparent; cursor: not-allowed; text-decoration: none; }
+.btn--sm { height: 30px; padding: 0 10px; font-size: 13px; }
+.spin { width: 10px; height: 10px; border: 1.5px solid currentColor; border-right-color: transparent; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label, .label { font-size: 13px; font-weight: 600; }
+.field .hint { font-size: 13px; color: var(--ink-3); }
+.input, .select {
+  width: 100%; height: 40px; padding: 0 12px; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--field-border); outline-offset: 0;
+}
+.input::placeholder { color: var(--ink-3); opacity: 1; }
+.input:hover, .select:hover { border-color: var(--ink); }
+.input:focus-visible, .select:focus-visible { outline: 2px solid var(--focus); outline-offset: -1px; border-color: var(--focus); }
+.input.mono { font-size: 13px; }
+.input[aria-invalid="true"] { border: 2px solid var(--signal); background: var(--signal-wash); padding: 0 11px; }
+.field-error { display: flex; gap: 8px; align-items: baseline; font-size: 13px; font-weight: 600; color: var(--signal-ink); }
+.field-error .sq { transform: translateY(1px); }
+.select {
+  appearance: none; -webkit-appearance: none; padding-right: 32px; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: calc(100% - 17px) 50%, calc(100% - 12px) 50%;
+  background-size: 5px 5px; background-repeat: no-repeat;
+}
+.inline-row { display: flex; gap: 0; }
+.inline-row .input { border-right: 0; }
+.inline-row .btn { height: 40px; }
+
+.check { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; }
+.check input {
+  appearance: none; -webkit-appearance: none; margin: 0; width: 18px; height: 18px; flex: none;
+  border: 1px solid var(--ink); background: var(--bg); cursor: pointer;
+}
+.check input:checked { background: var(--ink); box-shadow: inset 0 0 0 4px var(--bg); }
+.check input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* =====================================================================
+   6. SECTIONS & NOTICES
+   ===================================================================== */
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; border-top: 2px solid var(--rule); padding-top: 12px; margin-bottom: 20px; }
+.sec-head h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; display: flex; gap: 12px; align-items: baseline; }
+.idx { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--signal-ink); letter-spacing: 0; }
+.sec-head .aside { font-size: 13px; color: var(--ink-3); }
+
+.notice {
+  display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 0 4px; padding: 12px 0 0;
+  border-top: 2px solid var(--ink); font-size: 14px;
+}
+.notice .sq { margin-top: 5px; }
+.notice strong { font-weight: 600; }
+.notice p { color: var(--ink-2); }
+.notice--error { border-top-color: var(--signal); }
+.notice--error strong { color: var(--signal-ink); }
+.notice--info { border-top: 1px solid var(--hair); }
+.notice-kicker { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-bottom: 2px; }
+.notice--error .notice-kicker { color: var(--signal-ink); }
+
+/* =====================================================================
+   7. KPIs
+   ===================================================================== */
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 2px solid var(--rule); border-bottom: 1px solid var(--hair); margin-bottom: 48px; }
+.kpi { padding: 14px 20px 20px; border-left: 1px solid var(--hair); min-width: 0; }
+.kpi:first-child { border-left: 0; padding-left: 0; }
+.kpi dt { font-size: 13px; font-weight: 500; color: var(--ink-2); display: flex; justify-content: space-between; gap: 8px; }
+.kpi dt .mono { font-size: 11px; color: var(--ink-3); }
+.kpi .val { display: block; font-size: clamp(44px, 5.6vw, 84px); font-weight: 600; letter-spacing: -0.05em; line-height: 1; margin: 18px 0 12px; font-variant-numeric: tabular-nums; }
+.kpi .val small { font-size: 0.42em; letter-spacing: -0.02em; font-weight: 500; margin-left: 2px; vertical-align: 0.9em; }
+.delta { font-size: 13px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.delta b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.delta--down b { color: var(--signal-ink); }
+.delta span { color: var(--ink-3); }
+
+/* =====================================================================
+   8. IMPORT PANEL + RECENT IMPORTS (asymmetric 7/5)
+   ===================================================================== */
+.split { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; margin-bottom: 56px; }
+.import-form { display: grid; gap: 22px; }
+.import-form .notice { margin-top: 4px; }
+
+.jobs li {
+  display: grid; grid-template-columns: 104px minmax(0, 1fr) auto; gap: 4px 16px; align-items: baseline;
+  padding: 12px 0; border-bottom: 1px solid var(--hair);
+}
+.jobs li:first-child { padding-top: 0; }
+.jobs .ref { overflow-wrap: anywhere; }
+.jobs .kind { grid-column: 2; font-size: 12px; color: var(--ink-3); }
+.jobs time { font-size: 13px; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.jobs .status { font-size: 14px; font-weight: 500; }
+.jobs .failed { color: var(--signal-ink); }
+.pulse { animation: pulse 1s steps(2, jump-none) infinite; }
+@keyframes pulse { 50% { opacity: 0.15; } }
+.track { grid-column: 2 / 4; height: 2px; background: var(--hair); position: relative; overflow: hidden; margin-top: 6px; }
+.track::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 34%; background: var(--signal); animation: slide 1.6s cubic-bezier(.6,0,.3,1) infinite; }
+@keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+.jobs-foot { margin-top: 12px; }
+
+/* =====================================================================
+   9. LEADS TABLE
+   ===================================================================== */
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 0; padding-bottom: 16px; }
+.toolbar .filter { flex: 1 1 260px; max-width: 360px; }
+.toolbar .status-filter { flex: 0 1 180px; }
+.chip {
+  height: 40px; padding: 0 14px; background: transparent; border: 1px dashed var(--field-border);
+  font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap;
+}
+.chip:hover { border-style: solid; border-color: var(--ink); }
+.toolbar .count { margin-left: auto; font-size: 13px; color: var(--ink-3); }
+
+.table-wrap { overflow-x: auto; border-top: 2px solid var(--rule); -webkit-overflow-scrolling: touch; }
+.table-wrap:focus-visible { outline-offset: -2px; }
+table { width: 100%; min-width: 900px; border-collapse: collapse; font-size: 14px; }
+caption { text-align: left; }
+thead th {
+  text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-2); padding: 10px 16px 10px 0;
+  border-bottom: 1px solid var(--rule); white-space: nowrap;
+}
+thead th .mono { color: var(--ink-3); font-size: 11px; margin-right: 6px; }
+tbody td { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+tbody th { text-align: left; font-weight: 400; padding: 14px 16px 14px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+tbody tr:hover > * { background: var(--bg-sunk); }
+.person b, .company b { display: block; font-weight: 600; }
+.person span, .company span { display: block; font-size: 13px; color: var(--ink-3); }
+.company span { font-family: var(--font-mono); font-size: 12px; }
+.suppressed { display: inline-flex; gap: 8px; align-items: center; color: var(--ink-2); font-style: italic; }
+td.added { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink-2); }
+.dnc { color: var(--signal-ink); font-weight: 500; }
+
+.sk { display: block; height: 10px; background: var(--skeleton); position: relative; overflow: hidden; }
+.sk + .sk { margin-top: 8px; }
+.sk::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, var(--bg-sunk), transparent); transform: translateX(-100%); animation: shimmer 1.4s ease-in-out infinite; }
+@keyframes shimmer { to { transform: translateX(100%); } }
+tr.loading:hover > * { background: transparent; }
+
+.table-foot { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; padding-top: 16px; font-size: 13px; }
+.pager ol { display: flex; flex-wrap: wrap; align-items: center; }
+.pager a, .pager span {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 34px; padding: 0 8px;
+  text-decoration: none; font-variant-numeric: tabular-nums; border: 1px solid transparent;
+}
+.pager a:hover { border-color: var(--ink); }
+.pager a[aria-current="page"] { background: var(--ink); color: var(--on-ink); font-weight: 600; }
+.pager [aria-disabled="true"] { color: var(--disabled-ink); }
+
+/* =====================================================================
+   10. COMPONENT SAMPLES
+   ===================================================================== */
+.samples { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; margin-top: 56px; }
+.sample-label { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); margin-bottom: 10px; display: block; }
+
+.empty { border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); padding: 28px 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: start; }
+.empty .zero { font-size: 96px; font-weight: 700; letter-spacing: -0.06em; line-height: 0.8; color: transparent; -webkit-text-stroke: 1.5px var(--ink); font-variant-numeric: tabular-nums; }
+.empty h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+.empty p { color: var(--ink-2); margin: 6px 0 16px; font-size: 14px; max-width: 36ch; }
+
+.scrim {
+  padding: 32px; background:
+    repeating-linear-gradient(135deg, var(--scrim) 0 1px, transparent 1px 8px), var(--bg-sunk);
+  border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
+}
+.dialog { background: var(--bg); border: 2px solid var(--ink); max-width: 480px; margin: 0 auto; }
+.dialog-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--hair); }
+.dialog h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; }
+.close { width: 32px; height: 32px; background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.close:hover { background: var(--bg-sunk); }
+.close svg { width: 14px; height: 14px; }
+.dialog-body { padding: 16px 20px 20px; display: grid; gap: 16px; font-size: 14px; color: var(--ink-2); }
+.dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--hair); }
+
+.notices { display: grid; gap: 20px; }
+.btnset { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--hair); }
+.btnset > div { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--hair); display: grid; gap: 10px; justify-items: start; }
+.btnset > div:not(:nth-child(3n+1)) { padding-left: 16px; border-left: 1px solid var(--hair); }
+
+/* =====================================================================
+   11. TOKENS STRIP
+   ===================================================================== */
+.tokens { margin-top: 56px; }
+.token-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); border-top: 1px solid var(--hair); }
+.token { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 2px 12px; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--hair); align-items: center; }
+.token i { grid-row: span 2; width: 28px; height: 28px; box-shadow: inset 0 0 0 1px var(--hair); }
+.token code { font-family: var(--font-mono); font-size: 12px; overflow-wrap: anywhere; }
+.token code + code { color: var(--ink-3); }
+
+/* =====================================================================
+   12. DEMO CONTROL
+   ===================================================================== */
+.demo {
+  position: fixed; right: 16px; bottom: 16px; z-index: 20; background: var(--bg);
+  border: 1px solid var(--ink); display: flex; align-items: stretch;
+}
+.demo-cap { display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: 12px; font-weight: 700; letter-spacing: -0.01em; border-right: 1px solid var(--ink); white-space: nowrap; }
+.demo-cap .sq { background: var(--signal); }
+.demo button { background: none; border: 0; padding: 8px 12px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.demo button + button { border-left: 1px solid var(--hair); }
+.demo button:hover { background: var(--bg-sunk); }
+.demo button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); font-weight: 600; }
+.demo button:focus-visible { outline-offset: -3px; }
+
+/* =====================================================================
+   13. RESPONSIVE
+   ===================================================================== */
+@media (max-width: 1180px) {
+  .split, .samples { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .credits-label span { display: none; }
+}
+@media (max-width: 900px) {
+  :root { --gutter: 16px; }
+  .top { flex-wrap: wrap; }
+  .top > * { border-left: 0; }
+  .brand { width: auto; flex: 1; padding-left: 16px; order: 1; min-height: 52px; }
+  .avatar-cell { order: 2; }
+  .ws { order: 3; flex: 1; min-height: 48px; padding: 0 16px; border-left: 0; border-top: 1px solid var(--hair); }
+  .credits { order: 4; border-top: 1px solid var(--hair); border-left: 1px solid var(--hair); }
+  .search { order: 5; flex: 1 1 100%; border-top: 1px solid var(--hair); padding: 0; }
+  .search svg { left: 16px; }
+  .search input { height: 48px; padding-left: 40px; }
+  .credits-label span { display: inline; }
+
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .rail { border-right: 0; border-bottom: 1px solid var(--rule); padding: 0; }
+  .rail-title, .rail-foot { display: none; }
+  .index ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .index li a { border-top: 0; border-bottom: 1px solid var(--hair); border-right: 1px solid var(--hair); padding: 10px 12px; grid-template-columns: 22px 1fr auto; }
+  .index li:nth-child(3n) a { border-right: 0; }
+  .index li:nth-last-child(-n+3) a { border-bottom: 0; }
+
+  main { padding-top: 20px; }
+  .page-head { grid-template-columns: minmax(0, 1fr); }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(3) { border-left: 0; padding-left: 0; }
+  .kpi:nth-child(-n+2) { border-bottom: 1px solid var(--hair); }
+  .kpi { padding-right: 12px; }
+}
+@media (max-width: 560px) {
+  .index ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .index li:nth-child(3n) a { border-right: 1px solid var(--hair); }
+  .index li:nth-child(2n) a { border-right: 0; }
+  .index li:nth-last-child(-n+3) a { border-bottom: 1px solid var(--hair); }
+  .index li:nth-last-child(-n+2) a { border-bottom: 0; }
+  .credits { flex: 1 1 100%; border-left: 0; justify-content: space-between; min-height: 44px; }
+  .ws { flex: 1 1 100%; }
+  .kpi { padding-left: 12px; }
+  .kpi .val { font-size: 44px; }
+  .jobs li { grid-template-columns: minmax(0, 1fr) auto; }
+  .jobs .ref, .jobs .kind { grid-column: 1 / -1; }
+  .track { grid-column: 1 / -1; }
+  .inline-row { flex-direction: column; gap: 8px; }
+  .inline-row .input { border-right: 1px solid var(--field-border); }
+  .inline-row .input[aria-invalid="true"] { border-right: 2px solid var(--signal); }
+  .toolbar .filter, .toolbar .status-filter { flex: 1 1 100%; max-width: none; }
+  .toolbar .count { margin-left: 0; flex-basis: 100%; }
+  .btnset { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .btnset > div:not(:nth-child(3n+1)) { padding-left: 0; border-left: 0; }
+  .btnset > div:nth-child(2n) { padding-left: 16px; border-left: 1px solid var(--hair); }
+  .empty { grid-template-columns: minmax(0, 1fr); }
+  .empty .zero { font-size: 72px; }
+  .scrim { padding: 16px; }
+  .dialog-actions .btn { flex: 1 1 auto; }
+  .demo { left: 16px; right: 16px; }
+  .demo button { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .track::after { transform: translateX(80%); }
+  .sk::after { display: none; }
+}
+@media (forced-colors: active) {
+  .sq, .meter::before, .brand-mark { forced-color-adjust: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="brand" href="#" aria-label="LeadFinder home">LeadFinder<span class="brand-mark" aria-hidden="true"></span></a>
+  <button class="ws" type="button" aria-haspopup="menu" aria-label="Switch workspace. Current: Northwind Sales, role Admin">
+    <span><b>Northwind Sales</b> <span class="muted">· Admin</span></span>
+    <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+  </button>
+  <div class="search" role="search">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.5"/></svg>
+    <label class="sr-only" for="global-search">Search leads, companies and contacts</label>
+    <input id="global-search" type="search" placeholder="Search leads, companies, contacts" autocomplete="off" aria-keyshortcuts="Control+K">
+    <kbd aria-hidden="true">Ctrl K</kbd>
+  </div>
+  <div class="credits">
+    <div class="credits-label"><strong>LeadIQ credits</strong><span class="num">4 of 50 used</span></div>
+    <div class="meter" role="meter" aria-label="LeadIQ credits used" aria-valuemin="0" aria-valuemax="50" aria-valuenow="4" aria-valuetext="4 of 50 used" style="--used:4"></div>
+  </div>
+  <div class="avatar-cell"><button class="avatar" type="button" aria-haspopup="menu" aria-label="Account menu for Jordan Reyes">JR</button></div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Primary">
+    <div class="index">
+      <p class="rail-title" aria-hidden="true">Index</p>
+      <ol>
+        <li><a href="#" aria-current="page"><span class="n">01</span><span class="l">Leads</span><span class="c">1,284</span></a></li>
+        <li><a href="#"><span class="n">02</span><span class="l">Imports</span><span class="c">3</span></a></li>
+        <li><a href="#"><span class="n">03</span><span class="l">Companies</span><span class="c"></span></a></li>
+        <li><a href="#"><span class="n">04</span><span class="l">Contacts</span><span class="c"></span></a></li>
+        <li><a href="#"><span class="n">05</span><span class="l">Connections</span><span class="c"></span></a></li>
+        <li><a href="#"><span class="n">06</span><span class="l">Settings</span><span class="c"></span></a></li>
+      </ol>
+    </div>
+    <div class="rail-foot">
+      <span class="status"><span class="sq sq--solid" aria-hidden="true"></span>All systems normal</span>
+      <span class="mono">build 2.14.0</span>
+    </div>
+  </nav>
+
+  <main id="main">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol><li><a href="#">Northwind Sales</a></li><li><span aria-current="page">Leads</span></li></ol>
+    </nav>
+
+    <div class="page-head">
+      <div>
+        <h1><sup aria-hidden="true">01</sup>Leads</h1>
+        <p>Every person imported into this workspace, with verification status and source.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn--secondary" type="button">
+          <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1v8M3.5 5.5L7 9l3.5-3.5M1 12.5h12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Export
+        </button>
+        <button class="btn btn--primary" type="button">
+          <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1v12M1 7h12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Import lead
+        </button>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <section aria-label="Key figures">
+      <dl class="kpis">
+        <div class="kpi">
+          <dt>Total leads <span class="mono" aria-hidden="true">A</span></dt>
+          <dd><span class="val">1,284</span><span class="delta"><b>+12%</b><span>vs last month</span></span></dd>
+        </div>
+        <div class="kpi">
+          <dt>Imported this week <span class="mono" aria-hidden="true">B</span></dt>
+          <dd><span class="val">214</span><span class="delta"><b>+38</b><span>vs last week</span></span></dd>
+        </div>
+        <div class="kpi">
+          <dt>Verified emails <span class="mono" aria-hidden="true">C</span></dt>
+          <dd><span class="val">71<small>%</small></span><span class="delta delta--down"><b>−2%</b><span>vs last month</span></span></dd>
+        </div>
+        <div class="kpi">
+          <dt>Active connections <span class="mono" aria-hidden="true">D</span></dt>
+          <dd><span class="val">2</span><span class="delta"><span>LeadIQ · Product Hunt</span></span></dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Import + recent imports -->
+    <div class="split">
+      <section aria-labelledby="import-h">
+        <div class="sec-head"><h2 id="import-h"><span class="idx">02</span>Import a lead</h2><span class="aside">LeadIQ lead or LinkedIn profile</span></div>
+        <form class="import-form" onsubmit="return false" novalidate>
+          <div class="field">
+            <label for="lead-url">Lead URL</label>
+            <div class="inline-row">
+              <input class="input mono" id="lead-url" type="url" inputmode="url" placeholder="https://account.leadiq.com/app/leads/…" aria-describedby="lead-url-hint">
+              <button class="btn btn--primary" type="submit">Import</button>
+            </div>
+            <p class="hint" id="lead-url-hint">Re-importing the same person within a year costs no extra credits.</p>
+          </div>
+          <div class="field">
+            <label for="lead-url-2">Second lead URL</label>
+            <input class="input mono" id="lead-url-2" type="url" inputmode="url" value="https://example.com/people/avery" aria-invalid="true" aria-describedby="lead-url-2-err">
+            <p class="field-error" id="lead-url-2-err"><span class="sq sq--signal" aria-hidden="true"></span>Not a LeadIQ lead URL or LinkedIn profile URL.</p>
+          </div>
+          <label class="check"><input type="checkbox" checked> Also fetch the deep profile (uses 1 credit)</label>
+          <div class="notice" role="status">
+            <span class="sq sq--hatch" aria-hidden="true"></span>
+            <div><span class="notice-kicker">Warning</span><strong>Your LeadIQ key expires in 5 days</strong> <span>— reconnect it under <a href="#">Connections</a>.</span></div>
+          </div>
+        </form>
+      </section>
+
+      <section aria-labelledby="jobs-h">
+        <div class="sec-head"><h2 id="jobs-h"><span class="idx">03</span>Recent imports</h2><a class="btn btn--ghost btn--sm" href="#">View all</a></div>
+        <ol class="jobs">
+          <li>
+            <span class="status"><span class="sq sq--signal pulse" aria-hidden="true"></span>Running</span>
+            <span class="ref mono">leads/6ab5…0000</span>
+            <time datetime="2026-09-27T10:41:00Z">just now</time>
+            <span class="kind">LeadIQ lead · deep profile</span>
+            <span class="track" role="progressbar" aria-label="Import in progress"></span>
+          </li>
+          <li>
+            <span class="status"><span class="sq sq--hollow" aria-hidden="true"></span>Queued</span>
+            <span class="ref mono">linkedin.com/in/example-person</span>
+            <time datetime="2026-09-27T10:40:00Z">1 min ago</time>
+            <span class="kind">LinkedIn profile</span>
+          </li>
+          <li>
+            <span class="status"><span class="sq sq--solid" aria-hidden="true"></span>Succeeded</span>
+            <span class="ref mono">leads/91c2…4f1a</span>
+            <time datetime="2026-09-27T10:12:00Z">29 min ago</time>
+            <span class="kind">LeadIQ lead · Avery Stone</span>
+          </li>
+          <li>
+            <span class="status failed"><span class="sq sq--signal" aria-hidden="true"></span>Failed</span>
+            <span class="ref mono">linkedin.com/in/sample-profile</span>
+            <time datetime="2026-09-27T08:03:00Z">2 h ago</time>
+            <span class="kind">LeadIQ rejected the key</span>
+          </li>
+        </ol>
+      </section>
+    </div>
+
+    <!-- Leads table -->
+    <section aria-labelledby="table-h">
+      <div class="sec-head"><h2 id="table-h"><span class="idx">04</span>All leads</h2><span class="aside num">Updated 10:41</span></div>
+      <div class="toolbar">
+        <label class="sr-only" for="filter-text">Filter leads</label>
+        <input class="input filter" id="filter-text" type="search" placeholder="Filter by name, company or email">
+        <label class="sr-only" for="filter-status">Status</label>
+        <select class="select status-filter" id="filter-status">
+          <option>All statuses</option><option>Verified</option><option>Unverified</option><option>New</option><option>Do not contact</option>
+        </select>
+        <button class="chip" type="button">+ Source</button>
+        <button class="chip" type="button">+ Country</button>
+        <span class="count num">1,284 results</span>
+      </div>
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="table-h">
+        <table>
+          <caption class="sr-only">Leads in Northwind Sales, newest first</caption>
+          <thead>
+            <tr>
+              <th scope="col"><span class="mono" aria-hidden="true">a</span>Person</th>
+              <th scope="col"><span class="mono" aria-hidden="true">b</span>Company</th>
+              <th scope="col"><span class="mono" aria-hidden="true">c</span>Email</th>
+              <th scope="col"><span class="mono" aria-hidden="true">d</span>Source</th>
+              <th scope="col"><span class="mono" aria-hidden="true">e</span>Status</th>
+              <th scope="col" aria-sort="descending"><span class="mono" aria-hidden="true">f</span>Added ↓</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="person"><b>Avery Stone</b><span>VP Revenue Operations</span></th>
+              <td class="company"><b>Acme Analytics</b><span>acme.example</span></td>
+              <td class="mono">avery.stone@acme.example</td>
+              <td>LeadIQ</td>
+              <td><span class="status"><span class="sq sq--solid" aria-hidden="true"></span>Verified</span></td>
+              <td class="added">2026-09-27</td>
+            </tr>
+            <tr>
+              <th scope="row" class="person"><b>Priya Halden</b><span>Head of Growth</span></th>
+              <td class="company"><b>Brightline Labs</b><span>brightline.example</span></td>
+              <td class="mono">priya@brightline.example</td>
+              <td>Product Hunt</td>
+              <td><span class="status"><span class="sq sq--signal" aria-hidden="true"></span>New</span></td>
+              <td class="added">2026-09-26</td>
+            </tr>
+            <tr>
+              <th scope="row" class="person"><b>Marcus Oyelaran</b><span>Director of Sales</span></th>
+              <td class="company"><b>Tern &amp; Tide</b><span>terntide.example</span></td>
+              <td class="mono">m.oyelaran@terntide.example</td>
+              <td>LeadIQ</td>
+              <td><span class="status"><span class="sq sq--hollow" aria-hidden="true"></span>Unverified</span></td>
+              <td class="added">2026-09-24</td>
+            </tr>
+            <tr>
+              <th scope="row" class="person"><b>Lena Vasquez</b><span>Procurement Lead</span></th>
+              <td class="company"><b>Quarry Systems</b><span>quarry.example</span></td>
+              <td><span class="suppressed"><span class="sq sq--hatch" aria-hidden="true"></span>Suppressed</span></td>
+              <td>LeadIQ</td>
+              <td><span class="status dnc"><span class="sq sq--strike" aria-hidden="true"></span>Do not contact</span></td>
+              <td class="added">2026-09-21</td>
+            </tr>
+            <tr class="loading" aria-busy="true">
+              <th scope="row"><span class="sr-only">Loading more leads…</span><span class="sk" style="width:120px" aria-hidden="true"></span><span class="sk" style="width:84px" aria-hidden="true"></span></th>
+              <td aria-hidden="true"><span class="sk" style="width:110px"></span><span class="sk" style="width:70px"></span></td>
+              <td aria-hidden="true"><span class="sk" style="width:170px"></span></td>
+              <td aria-hidden="true"><span class="sk" style="width:60px"></span></td>
+              <td aria-hidden="true"><span class="sk" style="width:76px"></span></td>
+              <td aria-hidden="true"><span class="sk" style="width:74px"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-foot">
+        <span class="num">Showing <b>1–25</b> of <b>1,284</b></span>
+        <nav class="pager" aria-label="Pagination">
+          <ol>
+            <li><span aria-disabled="true">← Prev</span></li>
+            <li><a href="#" aria-current="page">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><span aria-hidden="true">…</span></li>
+            <li><a href="#" aria-label="Page 52">52</a></li>
+            <li><a href="#">Next →</a></li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Component samples -->
+    <section aria-labelledby="comp-h" style="margin-top:72px">
+      <div class="sec-head"><h2 id="comp-h"><span class="idx">05</span>Components</h2><span class="aside">Reference samples</span></div>
+
+      <div class="samples" style="margin-top:0">
+        <div>
+          <span class="sample-label">empty-state</span>
+          <div class="empty">
+            <span class="zero num" aria-hidden="true">0</span>
+            <div>
+              <h3>No connections yet</h3>
+              <p>Connect a LeadIQ key to start importing people into Northwind Sales.</p>
+              <button class="btn btn--primary" type="button">Connect LeadIQ</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="sample-label">confirm-dialog</span>
+          <div class="scrim">
+            <div class="dialog" role="dialog" aria-modal="false" aria-labelledby="dlg-h" aria-describedby="dlg-d">
+              <div class="dialog-head">
+                <h3 id="dlg-h">Disconnect LeadIQ?</h3>
+                <button class="close" type="button" aria-label="Close dialog"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5"/></svg></button>
+              </div>
+              <div class="dialog-body">
+                <p id="dlg-d">New imports for Northwind Sales will stop and the stored key will be deleted. Leads already imported stay in the workspace. You can reconnect at any time.</p>
+                <div class="notice notice--info" role="status">
+                  <span class="sq sq--hollow" aria-hidden="true"></span>
+                  <div><strong>Running jobs will finish first.</strong></div>
+                </div>
+              </div>
+              <div class="dialog-actions">
+                <button class="btn btn--secondary" type="button">Cancel</button>
+                <button class="btn btn--danger" type="button">Disconnect</button>
+                <button class="btn btn--primary" type="button" disabled aria-busy="true"><span class="spin" aria-hidden="true"></span>Saving…</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <span class="sample-label">notices</span>
+          <div class="notices">
+            <div class="notice" role="status">
+              <span class="sq sq--solid" aria-hidden="true"></span>
+              <div><span class="notice-kicker">Success</span><strong>Lead imported</strong> <span>— Avery Stone was added to your workspace.</span></div>
+            </div>
+            <div class="notice notice--error" role="status">
+              <span class="sq sq--signal" aria-hidden="true"></span>
+              <div><span class="notice-kicker">Error</span><strong>Import failed</strong> <span>— LeadIQ rejected the key. Reference: <span class="mono">req_01J8…</span> (share this with support).</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="sample-label">buttons</span>
+          <div class="btnset">
+            <div><span class="sample-label" style="margin:0">primary</span><button class="btn btn--primary" type="button">Import lead</button></div>
+            <div><span class="sample-label" style="margin:0">secondary</span><button class="btn btn--secondary" type="button">Export</button></div>
+            <div><span class="sample-label" style="margin:0">ghost</span><button class="btn btn--ghost" type="button">View all</button></div>
+            <div><span class="sample-label" style="margin:0">danger</span><button class="btn btn--danger" type="button">Disconnect</button></div>
+            <div><span class="sample-label" style="margin:0">disabled</span><button class="btn btn--primary" type="button" disabled>Import lead</button></div>
+            <div><span class="sample-label" style="margin:0">loading</span><button class="btn btn--primary" type="button" disabled aria-busy="true"><span class="spin" aria-hidden="true"></span>Importing…</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tokens -->
+    <section class="tokens" aria-labelledby="tok-h">
+      <div class="sec-head"><h2 id="tok-h"><span class="idx">06</span>Tokens</h2><span class="aside" id="tok-mode">Resolved mode: —</span></div>
+      <div class="token-grid" id="token-grid"></div>
+    </section>
+  </main>
+</div>
+
+<div class="demo" role="group" aria-label="Color mode (demo control)">
+  <span class="demo-cap"><span class="sq" aria-hidden="true"></span>Swiss Ledger</span>
+  <button type="button" data-mode="system" aria-pressed="false">System</button>
+  <button type="button" data-mode="light" aria-pressed="false">Light</button>
+  <button type="button" data-mode="dark" aria-pressed="false">Dark</button>
+</div>
+
+<script>
+(function () {
+  var KEY = 'lf-swiss-theme';
+  var root = document.documentElement;
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  var TOKENS = ['--bg', '--bg-sunk', '--ink', '--ink-2', '--ink-3', '--rule', '--hair', '--field-border',
+    '--signal', '--signal-ink', '--signal-on-ink', '--signal-wash', '--on-signal', '--on-ink',
+    '--disabled-bg', '--disabled-ink', '--skeleton', '--scrim', '--focus'];
+
+  function readMode() {
+    try { var m = localStorage.getItem(KEY); return (m === 'light' || m === 'dark') ? m : 'system'; }
+    catch (e) { return 'system'; }
+  }
+  function saveMode(m) {
+    try { if (m === 'system') localStorage.removeItem(KEY); else localStorage.setItem(KEY, m); }
+    catch (e) { /* storage blocked: choice lasts for this page view only */ }
+  }
+  function resolved(m) { return m === 'system' ? (mq.matches ? 'dark' : 'light') : m; }
+
+  function renderTokens() {
+    var cs = getComputedStyle(root);
+    var grid = document.getElementById('token-grid');
+    var frag = document.createDocumentFragment();
+    TOKENS.forEach(function (name) {
+      var val = cs.getPropertyValue(name).trim();
+      var row = document.createElement('div'); row.className = 'token';
+      var sw = document.createElement('i'); sw.setAttribute('aria-hidden', 'true'); sw.style.background = val;
+      var n = document.createElement('code'); n.textContent = name;
+      var v = document.createElement('code'); v.textContent = val;
+      row.append(sw, n, v); frag.appendChild(row);
+    });
+    grid.replaceChildren(frag);
+    var m = readModeCurrent();
+    document.getElementById('tok-mode').textContent = 'Resolved mode: ' + (resolved(m) === 'dark' ? 'Dark' : 'Light') + (m === 'system' ? ' (system)' : '');
+  }
+
+  var current = readMode();
+  function readModeCurrent() { return current; }
+
+  function apply(m) {
+    current = m;
+    if (m === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', m);
+    document.querySelectorAll('.demo [data-mode]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-mode') === m));
+    });
+    renderTokens();
+  }
+
+  document.querySelectorAll('.demo [data-mode]').forEach(function (b) {
+    b.addEventListener('click', function () { var m = b.getAttribute('data-mode'); saveMode(m); apply(m); });
+  });
+  var onScheme = function () { if (current === 'system') renderTokens(); };
+  if (mq.addEventListener) mq.addEventListener('change', onScheme); else if (mq.addListener) mq.addListener(onScheme);
+
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault(); document.getElementById('global-search').focus();
+    }
+  });
+
+  apply(current);
+})();
+</script>
+</body>
+</html>

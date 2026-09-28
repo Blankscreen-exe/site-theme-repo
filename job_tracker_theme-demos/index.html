@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Tracker themes</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#ececec;color:#111;font:15px/1.5 system-ui,"Segoe UI",Roboto,sans-serif;padding:32px 16px}
+h1{margin:0 auto 4px;max-width:1300px;font-size:26px}
+p.lead{margin:0 auto 24px;max-width:1300px;color:#555}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:22px;max-width:1300px;margin:0 auto}
+.card{display:block;background:#fff;border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 2px 10px rgba(0,0,0,.08);transition:transform .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.frame{height:260px;overflow:hidden;position:relative;pointer-events:none;border-bottom:1px solid #eee}
+.frame iframe{width:1440px;height:900px;border:0;transform:scale(.3);transform-origin:0 0;position:absolute}
+.meta{padding:12px 16px 16px} .meta b{display:block;font-size:17px} .meta span{color:#555;font-size:14px}
+@media (max-width:440px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>Job Tracker: pick a theme</h1>
+<p class="lead">Each page shows the same screen: stats, coming up, filters, the table and the company panel. Click one to open it full size; the switcher in the corner flips between them.</p>
+<div class="grid">
+  <a class="card" href="broadsheet.html">
+    <div class="frame"><iframe src="broadsheet.html" loading="lazy" tabindex="-1" title="Broadsheet"></iframe></div>
+    <div class="meta"><b>1. Broadsheet</b><span>Warm newsprint, serif type, double rules and small caps. Reads like an editorial page.</span></div>
+  </a>
+  <a class="card" href="phosphor.html">
+    <div class="frame"><iframe src="phosphor.html" loading="lazy" tabindex="-1" title="Phosphor"></iframe></div>
+    <div class="meta"><b>2. Phosphor</b><span>A green-screen terminal: monospace, scanlines, glow, amber highlights. Close to your TUI tools.</span></div>
+  </a>
+  <a class="card" href="block.html">
+    <div class="frame"><iframe src="block.html" loading="lazy" tabindex="-1" title="Block"></iframe></div>
+    <div class="meta"><b>3. Block</b><span>Neo-brutalist: thick black outlines, hard shadows and loud flat colour. Bold and very scannable.</span></div>
+  </a>
+  <a class="card" href="riso.html">
+    <div class="frame"><iframe src="riso.html" loading="lazy" tabindex="-1" title="Riso"></iframe></div>
+    <div class="meta"><b>4. Riso</b><span>Risograph print: cream paper grain, fluorescent pink and blue inks, slightly off-register shadows.</span></div>
+  </a>
+  <a class="card" href="swiss.html">
+    <div class="frame"><iframe src="swiss.html" loading="lazy" tabindex="-1" title="Swiss"></iframe></div>
+    <div class="meta"><b>5. Swiss</b><span>International Typographic Style: white, black and one red. Huge numbers, strict grid, no decoration.</span></div>
+  </a>
+  <a class="card" href="ledger.html">
+    <div class="frame"><iframe src="ledger.html" loading="lazy" tabindex="-1" title="Ledger"></iframe></div>
+    <div class="meta"><b>6. Ledger</b><span>Dark and calm: deep navy, cream text, serif numbers and a thin gold accent. A private-bank feel.</span></div>
+  </a>
+</div>
+</body>
+</html>

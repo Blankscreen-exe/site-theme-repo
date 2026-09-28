@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeadFinder theme demo</title>
+<style>
+/* ------------------------------------------------------------------------------------------
+   Theme tokens. Each theme = a light + dark palette + shape/density. The app will map these
+   same token names onto shadcn/Tailwind CSS variables, so picking a theme here is picking
+   the values, not the components.
+   ------------------------------------------------------------------------------------------ */
+:root {
+  --font: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "Cascadia Code", "JetBrains Mono", Consolas, ui-monospace, monospace;
+}
+
+/* A — Graphite: clean, data-dense SaaS (Linear/Attio-like) */
+[data-theme="graphite"] {
+  --radius: 6px; --radius-lg: 8px; --row: 38px; --pad: 16px; --gap: 16px;
+  --shadow: none; --card-border: 1px;
+  --sidebar-w: 224px; --heading-weight: 600; --letter: -0.01em;
+}
+[data-theme="graphite"][data-mode="light"] {
+  --bg: #fbfbfc; --surface: #ffffff; --surface-2: #f4f4f6; --border: #e4e4e8;
+  --text: #17171c; --muted: #6b6b76; --subtle: #9a9aa5;
+  --primary: #4f46e5; --primary-fg: #ffffff; --primary-soft: #eef0ff; --ring: #818cf8;
+  --sidebar: #f6f6f8; --sidebar-text: #3a3a44; --sidebar-active: #e9e9ee; --sidebar-active-text: #17171c;
+  --success: #15803d; --success-soft: #e8f6ed; --warning: #b45309; --warning-soft: #fdf3e2;
+  --danger: #c2261d; --danger-soft: #fdecea; --info: #1d4ed8; --info-soft: #e8efff;
+}
+[data-theme="graphite"][data-mode="dark"] {
+  --bg: #0e0e11; --surface: #141418; --surface-2: #1b1b21; --border: #26262e;
+  --text: #ececf1; --muted: #9a9aa6; --subtle: #6b6b76;
+  --primary: #7c83ff; --primary-fg: #0e0e11; --primary-soft: #1e1f3a; --ring: #6366f1;
+  --sidebar: #111115; --sidebar-text: #b4b4c0; --sidebar-active: #1f1f27; --sidebar-active-text: #ffffff;
+  --success: #4ade80; --success-soft: #11291a; --warning: #fbbf24; --warning-soft: #2d2110;
+  --danger: #f87171; --danger-soft: #331414; --info: #7aa2ff; --info-soft: #152040;
+}
+
+/* B — Harbor: soft & airy (Stripe/Notion dashboard-like) */
+[data-theme="harbor"] {
+  --radius: 10px; --radius-lg: 16px; --row: 52px; --pad: 22px; --gap: 22px;
+  --shadow: 0 1px 2px rgb(16 24 40 / .04), 0 4px 16px rgb(16 24 40 / .05); --card-border: 1px;
+  --sidebar-w: 248px; --heading-weight: 650; --letter: -0.015em;
+}
+[data-theme="harbor"][data-mode="light"] {
+  --bg: #f6f7f5; --surface: #ffffff; --surface-2: #f1f3f0; --border: #e5e8e3;
+  --text: #1b2420; --muted: #5f6b66; --subtle: #93a09a;
+  --primary: #0f766e; --primary-fg: #ffffff; --primary-soft: #e3f4f1; --ring: #5eead4;
+  --sidebar: #ffffff; --sidebar-text: #44504b; --sidebar-active: #e3f4f1; --sidebar-active-text: #0f766e;
+  --success: #15803d; --success-soft: #e7f5ec; --warning: #b45309; --warning-soft: #fcf1e1;
+  --danger: #be2f2f; --danger-soft: #fbeaea; --info: #2563eb; --info-soft: #e8f0fe;
+}
+[data-theme="harbor"][data-mode="dark"] {
+  --bg: #0d1211; --surface: #131a18; --surface-2: #19221f; --border: #24302c;
+  --text: #e7eeeb; --muted: #9aaaa4; --subtle: #6c7c76;
+  --primary: #2dd4bf; --primary-fg: #06201d; --primary-soft: #11302b; --ring: #14b8a6;
+  --sidebar: #101614; --sidebar-text: #aebcb6; --sidebar-active: #15302b; --sidebar-active-text: #5eead4;
+  --success: #4ade80; --success-soft: #0f2a1a; --warning: #fbbf24; --warning-soft: #2c2210;
+  --danger: #f87171; --danger-soft: #321515; --info: #7aa2ff; --info-soft: #14203c;
+  --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 6px 20px rgb(0 0 0 / .25);
+}
+
+/* C — Signal: bold, brand-forward (strong brand nav, high contrast) */
+[data-theme="signal"] {
+  --radius: 8px; --radius-lg: 12px; --row: 44px; --pad: 18px; --gap: 18px;
+  --shadow: 0 1px 0 rgb(0 0 0 / .04); --card-border: 1px;
+  --sidebar-w: 232px; --heading-weight: 750; --letter: -0.02em;
+}
+[data-theme="signal"][data-mode="light"] {
+  --bg: #f7f6f3; --surface: #ffffff; --surface-2: #f2f0ec; --border: #e3dfd8;
+  --text: #16130f; --muted: #645d54; --subtle: #9a9187;
+  --primary: #ea580c; --primary-fg: #ffffff; --primary-soft: #fff0e6; --ring: #fb923c;
+  --sidebar: #1c1917; --sidebar-text: #d6d0c8; --sidebar-active: #ea580c; --sidebar-active-text: #ffffff;
+  --success: #15803d; --success-soft: #e7f5ec; --warning: #a16207; --warning-soft: #fcf3dc;
+  --danger: #b91c1c; --danger-soft: #fdeaea; --info: #1d4ed8; --info-soft: #e8efff;
+}
+[data-theme="signal"][data-mode="dark"] {
+  --bg: #0f0d0c; --surface: #171412; --surface-2: #1f1b18; --border: #2e2824;
+  --text: #f3efe9; --muted: #a9a097; --subtle: #756c63;
+  --primary: #fb7a2e; --primary-fg: #1a0c03; --primary-soft: #36200f; --ring: #f97316;
+  --sidebar: #0a0908; --sidebar-text: #c9c1b8; --sidebar-active: #fb7a2e; --sidebar-active-text: #1a0c03;
+  --success: #4ade80; --success-soft: #10291a; --warning: #facc15; --warning-soft: #2c250c;
+  --danger: #f87171; --danger-soft: #331515; --info: #7aa2ff; --info-soft: #152040;
+}
+
+/* ---------------------------------- base ---------------------------------- */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font); background: var(--bg); color: var(--text);
+  font-size: 14px; line-height: 1.45; -webkit-font-smoothing: antialiased;
+  transition: background .2s, color .2s;
+}
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* Demo chrome (not part of the theme) */
+.demo-bar {
+  position: sticky; top: 0; z-index: 50; display: flex; flex-wrap: wrap; gap: 10px 18px;
+  align-items: center; padding: 10px 16px; background: #111; color: #eee; font-size: 13px;
+  font-family: "Segoe UI", system-ui, sans-serif; border-bottom: 1px solid #333;
+}
+.demo-bar strong { font-weight: 600; margin-right: 4px; }
+.seg { display: inline-flex; border: 1px solid #444; border-radius: 8px; overflow: hidden; }
+.seg button { background: transparent; border: 0; padding: 6px 12px; cursor: pointer; color: #ccc; }
+.seg button[aria-pressed="true"] { background: #eee; color: #111; }
+.demo-note { color: #aaa; margin-left: auto; }
+
+/* App shell */
+.app { display: grid; grid-template-columns: var(--sidebar-w) 1fr; min-height: calc(100vh - 49px); }
+.sidebar {
+  background: var(--sidebar); color: var(--sidebar-text); border-right: 1px solid var(--border);
+  padding: 14px 12px; display: flex; flex-direction: column; gap: 14px;
+}
+[data-theme="signal"] .sidebar { border-right-color: transparent; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 4px 6px; font-weight: 700; font-size: 15px; }
+[data-theme="signal"] .brand { color: #fff; }
+.logo {
+  width: 26px; height: 26px; border-radius: calc(var(--radius) - 1px); background: var(--primary);
+  color: var(--primary-fg); display: grid; place-items: center; font-size: 13px; font-weight: 800;
+}
+.ws {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+  padding: 8px 10px; border-radius: var(--radius); background: transparent; cursor: pointer;
+  border: 1px solid var(--border); color: inherit; text-align: left;
+}
+[data-theme="signal"] .ws { border-color: rgb(255 255 255 / .12); }
+.ws small { display: block; color: var(--subtle); font-size: 11px; }
+[data-theme="signal"] .ws small { color: rgb(255 255 255 / .5); }
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--subtle); padding: 10px 10px 4px; }
+[data-theme="signal"] .nav-label { color: rgb(255 255 255 / .4); }
+.nav a {
+  display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: var(--radius);
+  color: inherit; text-decoration: none; font-weight: 500;
+}
+.nav a:hover { background: var(--sidebar-active); color: var(--sidebar-active-text); }
+[data-theme="signal"] .nav a:hover { background: rgb(255 255 255 / .08); color: #fff; }
+.nav a[aria-current="page"] { background: var(--sidebar-active); color: var(--sidebar-active-text); }
+.nav svg { width: 16px; height: 16px; flex: none; }
+.nav .count { margin-left: auto; font-size: 11px; color: var(--subtle); }
+.nav a[aria-current="page"] .count { color: inherit; opacity: .8; }
+.sidebar-foot { margin-top: auto; font-size: 12px; color: var(--subtle); padding: 0 6px; }
+.meter { height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin-top: 6px; }
+[data-theme="signal"] .meter { background: rgb(255 255 255 / .12); }
+.meter span { display: block; height: 100%; width: 8%; background: var(--primary); }
+
+.main { display: flex; flex-direction: column; min-width: 0; }
+.topbar {
+  height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 24px;
+  border-bottom: 1px solid var(--border); background: var(--surface);
+}
+.search {
+  flex: 1; max-width: 420px; display: flex; align-items: center; gap: 8px; padding: 0 10px;
+  height: 34px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--subtle);
+}
+.search input { border: 0; background: transparent; outline: none; width: 100%; color: var(--text); }
+.kbd { font-family: var(--mono); font-size: 11px; border: 1px solid var(--border); border-radius: 4px; padding: 0 5px; color: var(--muted); }
+.avatar {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--primary-soft); color: var(--primary);
+  display: grid; place-items: center; font-weight: 700; font-size: 12px; margin-left: auto;
+}
+.content { padding: 24px; display: flex; flex-direction: column; gap: var(--gap); max-width: 1240px; width: 100%; }
+
+/* Page header */
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.crumbs { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+h1 { margin: 0; font-size: 24px; font-weight: var(--heading-weight); letter-spacing: var(--letter); }
+.page-head p { margin: 4px 0 0; color: var(--muted); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Buttons (variants = one cva later) */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 34px;
+  padding: 0 14px; border-radius: var(--radius); border: 1px solid transparent; cursor: pointer;
+  font-weight: 550; white-space: nowrap; transition: background .15s, border-color .15s, opacity .15s;
+}
+.btn svg { width: 15px; height: 15px; }
+.btn-primary { background: var(--primary); color: var(--primary-fg); }
+.btn-primary:hover { opacity: .92; }
+.btn-secondary { background: var(--surface); border-color: var(--border); }
+.btn-secondary:hover { background: var(--surface-2); }
+.btn-ghost { background: transparent; color: var(--muted); }
+.btn-ghost:hover { background: var(--surface-2); color: var(--text); }
+.btn-danger { background: var(--danger-soft); color: var(--danger); }
+.btn-sm { height: 28px; padding: 0 10px; font-size: 13px; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.spinner { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Cards */
+.card {
+  background: var(--surface); border: var(--card-border) solid var(--border); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: var(--pad) var(--pad) 0; }
+.card-title { font-weight: 600; font-size: 15px; margin: 0; }
+.card-desc { color: var(--muted); font-size: 13px; margin: 2px 0 0; }
+.card-body { padding: var(--pad); }
+
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.stat { padding: var(--pad); }
+.stat-label { color: var(--muted); font-size: 13px; display: flex; align-items: center; justify-content: space-between; }
+.stat-value { font-size: 26px; font-weight: var(--heading-weight); letter-spacing: var(--letter); margin-top: 6px; }
+.delta { font-size: 12px; font-weight: 600; }
+.delta.up { color: var(--success); } .delta.down { color: var(--danger); }
+[data-theme="signal"] .stat:first-child { background: var(--primary); color: var(--primary-fg); border-color: transparent; }
+[data-theme="signal"] .stat:first-child .stat-label, [data-theme="signal"] .stat:first-child .delta { color: inherit; opacity: .85; }
+
+.grid-2 { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--gap); }
+
+/* Form */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-weight: 550; font-size: 13px; }
+.hint { font-size: 12px; color: var(--muted); }
+.err { font-size: 12px; color: var(--danger); display: flex; gap: 6px; align-items: center; }
+.input, .select {
+  height: 36px; padding: 0 12px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); width: 100%;
+}
+.input::placeholder { color: var(--subtle); }
+.input[aria-invalid="true"] { border-color: var(--danger); }
+.row { display: flex; gap: 8px; align-items: flex-start; }
+.row > .field { flex: 1; }
+.checkbox { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
+.checkbox input { accent-color: var(--primary); width: 15px; height: 15px; }
+
+/* Notice */
+.notice { display: flex; gap: 10px; padding: 12px 14px; border-radius: var(--radius); font-size: 13px; border: 1px solid transparent; }
+.notice svg { width: 16px; height: 16px; flex: none; margin-top: 1px; }
+.notice b { display: block; font-weight: 600; margin-bottom: 1px; }
+.notice.info { background: var(--info-soft); color: var(--info); }
+.notice.warning { background: var(--warning-soft); color: var(--warning); }
+.notice.danger { background: var(--danger-soft); color: var(--danger); }
+.notice.success { background: var(--success-soft); color: var(--success); }
+.notice span { color: var(--text); opacity: .85; }
+
+/* Badges */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; font-size: 12px;
+  font-weight: 550; border-radius: 99px; white-space: nowrap; background: var(--surface-2); color: var(--muted);
+}
+[data-theme="graphite"] .badge { border-radius: 5px; }
+.badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.badge.success { background: var(--success-soft); color: var(--success); }
+.badge.warning { background: var(--warning-soft); color: var(--warning); }
+.badge.danger { background: var(--danger-soft); color: var(--danger); }
+.badge.info { background: var(--info-soft); color: var(--info); }
+.badge.primary { background: var(--primary-soft); color: var(--primary); }
+.badge.outline { background: transparent; border: 1px solid var(--border); }
+
+/* Jobs list */
+.jobs { list-style: none; margin: 0; padding: 0; }
+.jobs li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border); }
+.jobs li:first-child { border-top: 0; padding-top: 0; }
+.jobs .ref { font-family: var(--mono); font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jobs .meta { flex: 1; min-width: 0; }
+.jobs .when { font-size: 12px; color: var(--subtle); white-space: nowrap; }
+
+/* Table */
+.toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: var(--pad) var(--pad) 12px; }
+.toolbar .input { max-width: 260px; height: 32px; }
+.toolbar .select { width: auto; height: 32px; }
+.chip { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--muted); background: transparent; cursor: pointer; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left; font-weight: 550; color: var(--muted); font-size: 12px; padding: 0 var(--pad);
+  height: 36px; background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+[data-theme="harbor"] th { background: transparent; text-transform: uppercase; letter-spacing: .05em; font-size: 11px; }
+td { padding: 0 var(--pad); height: var(--row); border-bottom: 1px solid var(--border); white-space: nowrap; }
+tbody tr:hover { background: var(--surface-2); }
+tbody tr:last-child td { border-bottom: 0; }
+.person { display: flex; align-items: center; gap: 10px; }
+.initials { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; background: var(--primary-soft); color: var(--primary); flex: none; }
+[data-theme="graphite"] .initials { width: 24px; height: 24px; font-size: 10px; }
+.person small { display: block; color: var(--muted); font-size: 12px; }
+.muted { color: var(--muted); }
+.mono { font-family: var(--mono); font-size: 12px; }
+.table-foot { display: flex; align-items: center; justify-content: space-between; padding: 12px var(--pad); color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 8px; }
+.pager { display: flex; gap: 4px; }
+.pager .btn[aria-current="page"] { background: var(--primary-soft); color: var(--primary); border-color: transparent; }
+
+/* Empty state */
+.empty { text-align: center; padding: 36px var(--pad); }
+.empty .icon { width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); }
+.empty .icon svg { width: 20px; height: 20px; }
+.empty h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+.empty p { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
+
+/* Skeleton */
+.skel { height: 12px; border-radius: 4px; background: linear-gradient(90deg, var(--surface-2), var(--border), var(--surface-2)); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+/* Dialog preview (static) */
+.dialog { max-width: 440px; }
+.dialog .card-body { display: flex; flex-direction: column; gap: 12px; }
+.dialog-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 0 var(--pad) var(--pad); }
+
+.section-title { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--subtle); margin: 8px 0 -6px; }
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.sw { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 10px 6px 6px; background: var(--surface); }
+.sw i { width: 22px; height: 22px; border-radius: calc(var(--radius) - 2px); border: 1px solid var(--border); }
+
+/* Responsive: phone/tablet */
+@media (max-width: 1100px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid-2 { grid-template-columns: 1fr; } }
+@media (max-width: 820px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .content, .topbar { padding-left: 16px; padding-right: 16px; }
+  .demo-note { display: none; }
+}
+@media (max-width: 520px) { .stats { grid-template-columns: 1fr; } .row { flex-direction: column; } .row .btn { width: 100%; } }
+</style>
+</head>
+<body>
+
+<div class="demo-bar" role="toolbar" aria-label="Theme demo controls">
+  <div><strong>Theme</strong>
+    <span class="seg" id="theme-seg">
+      <button data-v="graphite">A · Graphite</button>
+      <button data-v="harbor">B · Harbor</button>
+      <button data-v="signal">C · Signal</button>
+    </span>
+  </div>
+  <div><strong>Mode</strong>
+    <span class="seg" id="mode-seg">
+      <button data-v="system">System</button>
+      <button data-v="light">Light</button>
+      <button data-v="dark">Dark</button>
+    </span>
+  </div>
+  <span class="demo-note">Keys: 1/2/3 theme · L/D/S mode · all data is synthetic</span>
+</div>
+
+<div class="app">
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="brand"><span class="logo">LF</span> LeadFinder</div>
+    <button class="ws" type="button" aria-haspopup="listbox">
+      <span>Northwind Sales<small>Workspace · Admin</small></span>
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 15 5 5 5-5M7 9l5-5 5 5"/></svg>
+    </button>
+    <nav class="nav">
+      <div class="nav-label">Prospecting</div>
+      <a href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Leads<span class="count">1,284</span></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg>Imports<span class="count">3</span></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h1m4 0h1M9 11h1m4 0h1M9 15h1m4 0h1"/></svg>Companies</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="11" r="2.5"/><path d="M14 10h4m-4 4h4M5.5 17a3.5 3.5 0 0 1 7 0"/></svg>Contacts</a>
+      <div class="nav-label">Workspace</div>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 0 1 0 10h-2M8 12h8"/></svg>Connections</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</a>
+    </nav>
+    <div class="sidebar-foot">
+      LeadIQ credits · 4 of 50 used
+      <div class="meter" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="50" aria-label="LeadIQ credits used"><span></span></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <label class="search"><span class="sr-only">Search</span>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input placeholder="Search leads, companies, domains…"><span class="kbd">Ctrl K</span>
+      </label>
+      <span class="avatar" aria-label="Account">JD</span>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <div class="crumbs">Northwind Sales / Leads</div>
+          <h1>Leads</h1>
+          <p>People and companies your workspace has imported or saved.</p>
+        </div>
+        <div class="actions">
+          <button class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3m0 12-4-4m4 4 4-4M4 21h16"/></svg>Export</button>
+          <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Import lead</button>
+        </div>
+      </div>
+
+      <section class="stats" aria-label="Summary">
+        <div class="card stat"><div class="stat-label">Total leads <span class="delta up">+12%</span></div><div class="stat-value">1,284</div></div>
+        <div class="card stat"><div class="stat-label">Imported this week <span class="delta up">+38</span></div><div class="stat-value">214</div></div>
+        <div class="card stat"><div class="stat-label">Verified emails <span class="delta down">−2%</span></div><div class="stat-value">71%</div></div>
+        <div class="card stat"><div class="stat-label">Active connections</div><div class="stat-value">2</div></div>
+      </section>
+
+      <div class="grid-2">
+        <section class="card" aria-labelledby="imp-title">
+          <div class="card-head"><div><h2 class="card-title" id="imp-title">Import a lead</h2><p class="card-desc">Paste a LeadIQ lead URL or a LinkedIn profile URL.</p></div><span class="badge primary">LeadIQ</span></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:14px">
+            <div class="row">
+              <div class="field">
+                <label for="ref">Lead URL</label>
+                <input id="ref" class="input" placeholder="https://account.leadiq.com/app/leads/…" aria-describedby="ref-hint">
+                <span class="hint" id="ref-hint">Re-importing the same person within a year costs no extra credits.</span>
+              </div>
+              <button class="btn btn-primary" style="margin-top:25px">Import</button>
+            </div>
+            <div class="field">
+              <label for="ref2">Lead URL (error state)</label>
+              <input id="ref2" class="input" value="https://example.com/not-a-lead" aria-invalid="true" aria-describedby="ref2-err">
+              <span class="err" id="ref2-err"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>Not a LeadIQ lead URL or LinkedIn profile URL.</span>
+            </div>
+            <label class="checkbox"><input type="checkbox" checked> Also fetch the deep profile (uses 1 credit)</label>
+            <div class="notice warning" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4m0 4h.01"/></svg><div><b>Your LeadIQ key expires in 5 days</b><span>Reconnect it under Connections to keep importing.</span></div></div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="jobs-title">
+          <div class="card-head"><div><h2 class="card-title" id="jobs-title">Recent imports</h2><p class="card-desc">Status updates live while a job runs.</p></div><button class="btn btn-ghost btn-sm">View all</button></div>
+          <div class="card-body">
+            <ul class="jobs">
+              <li><span class="badge info"><span class="spinner" aria-hidden="true"></span>Running</span><div class="meta"><div>LeadIQ lookup</div><div class="ref">leads/6ab5…0000</div></div><span class="when">just now</span></li>
+              <li><span class="badge"><span class="dot"></span>Queued</span><div class="meta"><div>LinkedIn profile</div><div class="ref">linkedin.com/in/example-person</div></div><span class="when">1 min</span></li>
+              <li><span class="badge success"><span class="dot"></span>Succeeded</span><div class="meta"><div>LeadIQ lookup · 1 lead</div><div class="ref">leads/5f1c…a9e2</div></div><span class="when">12 min</span></li>
+              <li><span class="badge danger"><span class="dot"></span>Failed</span><div class="meta"><div>LeadIQ lookup · not found</div><div class="ref">leads/0000…ffff</div></div><span class="when">1 h</span></li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" aria-labelledby="tbl-title">
+        <div class="card-head"><div><h2 class="card-title" id="tbl-title">All leads</h2></div></div>
+        <div class="toolbar">
+          <input class="input" placeholder="Filter by name or company…" aria-label="Filter leads">
+          <select class="select" aria-label="Status"><option>All statuses</option><option>New</option><option>Contacted</option></select>
+          <button class="chip">+ Source</button><button class="chip">+ Country</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Person</th><th scope="col">Company</th><th scope="col">Email</th><th scope="col">Source</th><th scope="col">Status</th><th scope="col">Added</th></tr></thead>
+            <tbody>
+              <tr><td><div class="person"><span class="initials">AS</span><div>Avery Stone<small>Head of Growth</small></div></div></td><td>Acme Robotics<div class="muted mono">acme.example</div></td><td class="mono">a.stone@acme.example</td><td><span class="badge primary">LeadIQ</span></td><td><span class="badge success"><span class="dot"></span>Verified</span></td><td class="muted">Sep 26</td></tr>
+              <tr><td><div class="person"><span class="initials">RK</span><div>Rowan Kade<small>VP Engineering</small></div></div></td><td>Globex Labs<div class="muted mono">globex.example</div></td><td class="mono">rowan@globex.example</td><td><span class="badge primary">LeadIQ</span></td><td><span class="badge warning"><span class="dot"></span>Unverified</span></td><td class="muted">Sep 25</td></tr>
+              <tr><td><div class="person"><span class="initials">MP</span><div>Morgan Pike<small>Founder</small></div></div></td><td>Initech Cloud<div class="muted mono">initech.example</div></td><td class="muted">—</td><td><span class="badge outline">Product Hunt</span></td><td><span class="badge"><span class="dot"></span>New</span></td><td class="muted">Sep 24</td></tr>
+              <tr><td><div class="person"><span class="initials">JL</span><div>Jules Lark<small>Sales Director</small></div></div></td><td>Umbrella Data<div class="muted mono">umbrella.example</div></td><td class="muted">Suppressed</td><td><span class="badge primary">LeadIQ</span></td><td><span class="badge danger"><span class="dot"></span>Do not contact</span></td><td class="muted">Sep 22</td></tr>
+              <tr><td><div class="skel" style="width:140px"></div></td><td><div class="skel" style="width:110px"></div></td><td><div class="skel" style="width:160px"></div></td><td><div class="skel" style="width:60px"></div></td><td><div class="skel" style="width:70px"></div></td><td><div class="skel" style="width:40px"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-foot"><span>Showing 1–25 of 1,284</span>
+          <div class="pager"><button class="btn btn-secondary btn-sm" disabled>Prev</button><button class="btn btn-secondary btn-sm" aria-current="page">1</button><button class="btn btn-secondary btn-sm">2</button><button class="btn btn-secondary btn-sm">3</button><button class="btn btn-secondary btn-sm">Next</button></div>
+        </div>
+      </section>
+
+      <p class="section-title">Components</p>
+      <div class="grid-2">
+        <section class="card">
+          <div class="empty">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 0 1 0 10h-2M8 12h8"/></svg></div>
+            <h3>No connections yet</h3>
+            <p>Connect your LeadIQ account to start importing leads.</p>
+            <button class="btn btn-primary">Connect LeadIQ</button>
+          </div>
+        </section>
+        <section class="card dialog" role="dialog" aria-labelledby="dlg-t" style="max-width:none">
+          <div class="card-head"><h2 class="card-title" id="dlg-t">Disconnect LeadIQ?</h2></div>
+          <div class="card-body">
+            <p class="card-desc" style="margin:0">Imports will stop until someone reconnects. Data already imported stays.</p>
+            <div class="notice info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg><div><b>Heads up</b><span>Running jobs will finish first.</span></div></div>
+          </div>
+          <div class="dialog-foot"><button class="btn btn-ghost">Cancel</button><button class="btn btn-danger">Disconnect</button><button class="btn btn-primary" disabled><span class="spinner"></span>Saving…</button></div>
+        </section>
+      </div>
+
+      <div class="notice success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><div><b>Lead imported</b><span>Avery Stone was added to your workspace.</span></div></div>
+      <div class="notice danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6m0-6 6 6"/></svg><div><b>Import failed</b><span>LeadIQ rejected the key. Reference: req_01J8… (share this with support).</span></div></div>
+
+      <p class="section-title">Palette</p>
+      <div class="swatches" id="swatches"></div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  var state = { theme: store.get("lf-demo-theme") || "graphite", mode: store.get("lf-demo-mode") || "system" };
+
+  function apply() {
+    root.setAttribute("data-theme", state.theme);
+    var resolved = state.mode === "system" ? (mq.matches ? "dark" : "light") : state.mode;
+    root.setAttribute("data-mode", resolved);
+    root.style.colorScheme = resolved;
+    mark("theme-seg", state.theme); mark("mode-seg", state.mode);
+    swatches();
+  }
+  function mark(id, v) {
+    document.querySelectorAll("#" + id + " button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.v === v));
+    });
+  }
+  function swatches() {
+    var names = ["bg", "surface", "border", "text", "muted", "primary", "success", "warning", "danger", "info", "sidebar"];
+    var cs = getComputedStyle(document.body);
+    document.getElementById("swatches").innerHTML = names.map(function (n) {
+      var v = cs.getPropertyValue("--" + n).trim();
+      return '<span class="sw"><i style="background:' + v + '"></i>' + n + ' <span class="mono">' + v + "</span></span>";
+    }).join("");
+  }
+  function set(key, v) { state[key] = v; store.set("lf-demo-" + key, v); apply(); }
+
+  document.getElementById("theme-seg").addEventListener("click", function (e) { if (e.target.dataset.v) set("theme", e.target.dataset.v); });
+  document.getElementById("mode-seg").addEventListener("click", function (e) { if (e.target.dataset.v) set("mode", e.target.dataset.v); });
+  document.addEventListener("keydown", function (e) {
+    if (e.target.matches("input, select, textarea")) return;
+    var t = { "1": "graphite", "2": "harbor", "3": "signal" }[e.key];
+    var m = { l: "light", d: "dark", s: "system" }[e.key.toLowerCase()];
+    if (t) set("theme", t); else if (m) set("mode", m);
+  });
+  mq.addEventListener("change", function () { if (state.mode === "system") apply(); });
+  apply();
+})();
+</script>
+</body>
+</html>

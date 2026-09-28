@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Broadsheet · Job Tracker theme</title>
-<meta name="description" content="Warm newsprint, serif type, double rules and small caps. Reads like an editorial page.">
+<title>Kiln · Job Tracker theme</title>
+<meta name="description" content="Warm and earthy: sand, terracotta and olive, soft rounded shapes and a humanist serif. Calm, friendly, handmade.">
 <style>
 *{box-sizing:border-box} html,body{margin:0}
 button,input,textarea{font:inherit;color:inherit}
@@ -78,52 +78,56 @@ tbody tr{cursor:pointer}
 @media (max-width:1050px){.layout{grid-template-columns:1fr}.drawer{position:static}}
 @media (max-width:640px){.up{grid-template-columns:1fr;gap:2px}.row2{grid-template-columns:1fr}.layout{padding:12px}.top{padding:12px}.hint{display:none}.switcher{bottom:10px}}
 
-:root{--paper:#f3ede1;--ink:#1c1915;--muted:#6f665a;--soft:#dcd2bf;--red:#b8321f;
---applied:#1f4e8c;--screening:#2e7d6b;--interview:#8a3fa0;--offer:#2f7d32;--rejected:#b8321f;--ghosted:#857c70;--withdrawn:#9b7a4a}
-body{background:var(--paper);color:var(--ink);font:15px/1.5 "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
-.top{border-bottom:3px double var(--ink);padding:20px 24px 12px}
-.brand-name{font-size:32px;font-weight:700;font-style:italic;letter-spacing:-.02em}
-.tabs a{color:var(--muted);font-variant:small-caps;letter-spacing:.06em;font-size:17px;padding:2px 8px}
-.tabs a.on{color:var(--ink);box-shadow:inset 0 -2px var(--red)}
-.search{border-bottom:1px solid var(--ink)} .search input{font-style:italic}
-kbd{font:12px "Courier New",monospace;border:1px solid var(--muted);padding:0 4px;color:var(--muted)}
-.btn{background:none;border:1px solid var(--ink);color:var(--ink)}
-.btn.primary{background:var(--ink);color:var(--paper);font-variant:small-caps;letter-spacing:.06em;font-size:16px}
-.btn.primary kbd{color:var(--paper);border-color:var(--paper)}
-.stats{gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
-.stat{border-right:1px solid var(--soft);padding:10px 18px}
-.stat b{font-size:34px;font-weight:400;color:var(--c,var(--ink))}
-.stat span{font-variant:small-caps;letter-spacing:.05em;color:var(--muted)}
-.stat.warn b{color:var(--red)}
-.upcoming h2{font-size:12px;letter-spacing:.25em;text-transform:uppercase;margin:0;border-bottom:1px solid var(--ink);padding-bottom:4px}
-.up{padding:10px 0;border-bottom:1px dotted var(--muted)}
-.up .when b{font-size:17px}
-.up .what{font-style:italic}
-.chip{border:0;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:2px 4px;font-style:italic}
-.chip.on{color:var(--red);font-weight:700}
-.grid th{font-variant:small-caps;letter-spacing:.06em;font-weight:600;border-bottom:2px solid var(--ink);font-size:15px}
-.grid td{border-bottom:1px solid var(--soft)}
-.grid tr.sel td{background:#e9dfcb}
-.star{color:var(--red)}
-.pill{font-variant:small-caps;letter-spacing:.04em;color:var(--c);font-weight:600}
-.pill::before{content:"";display:inline-block;width:7px;height:7px;background:var(--c);margin-right:7px;transform:rotate(45deg);vertical-align:1px}
-.tool{font-style:italic;color:var(--muted);padding:0;margin-right:10px}
-.company{font-weight:700;font-size:16px}
-.tag{font-variant:small-caps;color:var(--red);font-size:14px}
-.stale{color:var(--red);font-style:italic}
-.drawer{background:#faf6ee;border:1px solid var(--ink);box-shadow:6px 6px 0 var(--soft)}
-.dh h2{font-size:28px;font-style:italic}
-.field label,.sec h3{font-variant:small-caps;letter-spacing:.08em;color:var(--muted);font-size:15px;font-weight:600}
-.field .input{border-bottom:1px solid var(--muted);padding-left:0}
-.box{border:1px solid var(--ink)} .box.on{background:var(--ink);color:var(--paper)}
-.sec{border-top:1px solid var(--ink)}
-.card{border:1px solid var(--soft);background:var(--paper)}
-.avatar{border-radius:50%;background:var(--ink);color:var(--paper);font-style:italic}
-.tpl{border:1px solid var(--muted);background:none;font-style:italic}
-.callout{border-left:3px solid var(--red);background:#efe3cf;font-style:italic}
-.ev i{background:var(--c);transform:rotate(45deg)}
-.ev .meta b{font-variant:small-caps;color:var(--c);font-size:14px}
-.hint{border-top:1px solid var(--ink);color:var(--muted);font-style:italic;background:var(--paper)}
+:root{--bg:#efe6da;--card:#f8f2ea;--ink:#3b2a20;--muted:#8a7565;--clay:#c2603d;--olive:#6b7a3a;--sand:#e2d2bb;--line:#dccab3;
+--applied:#5f7494;--screening:#6b7a3a;--interview:#c2603d;--offer:#4f7d4a;--rejected:#9e3b2e;--ghosted:#a8998a;--withdrawn:#b28a55}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 "Gill Sans","Gill Sans MT",Seravek,"Segoe UI",system-ui,sans-serif}
+.top{padding:18px 24px}
+.brand-mark{width:30px;height:30px;border-radius:50% 50% 50% 8px;background:var(--clay)}
+.brand-name{font:600 25px Constantia,Georgia,serif}
+.tabs{background:var(--sand);border-radius:999px;padding:3px}
+.tabs a{color:var(--muted);border-radius:999px}
+.tabs a.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(59,42,32,.15)}
+.search{background:var(--card);border-radius:999px;border:1px solid var(--line);padding:0 14px}
+kbd{font:11px Consolas,monospace;background:var(--sand);padding:1px 6px;border-radius:6px;color:var(--muted)}
+.btn{background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--ink)}
+.btn.primary{background:var(--clay);color:#fff;border-color:var(--clay)} .btn.primary kbd{background:rgba(255,255,255,.2);color:#fff}
+.stat{background:var(--card);border-radius:18px;border:1px solid var(--line)}
+.stat b{font:600 30px Constantia,Georgia,serif;color:var(--c,var(--ink))}
+.stat span{color:var(--muted);font-size:13px}
+.stat.warn{background:#f6dccf;border-color:#e9b8a2} .stat.warn b{color:var(--clay)}
+.upcoming{background:var(--olive);color:#f5efe2;border-radius:22px;padding:6px}
+.upcoming h2{font:italic 600 17px Constantia,Georgia,serif;margin:8px 14px 4px}
+.up{background:rgba(255,255,255,.09);border-radius:14px;margin:6px}
+.upcoming .btn{background:#f5efe2;border:0}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--ink)}
+.chip.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.count{color:var(--muted)}
+.tablewrap{background:var(--card);border-radius:22px;border:1px solid var(--line);padding:6px 8px}
+.grid th{color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line)}
+.grid td{border-bottom:1px solid var(--line)} .grid tr:last-child td{border-bottom:0}
+.grid tr.sel td{background:#f3e1d3}
+.star{color:var(--clay)}
+.pill{background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);padding:2px 12px;border-radius:999px;font-size:12px;font-weight:600}
+.tool{background:var(--sand);border-radius:999px;font-size:12px}
+.company{font:600 16px Constantia,Georgia,serif}
+.tag{color:var(--olive);font-size:12px;font-weight:600}
+.stale{background:#f6dccf;color:var(--clay);border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600}
+.drawer{background:var(--card);border-radius:26px;border:1px solid var(--line);box-shadow:0 20px 40px rgba(59,42,32,.12)}
+.dh h2{font:600 26px Constantia,Georgia,serif}
+.field label{color:var(--muted);font-size:12px;font-weight:600}
+.sec h3{font:italic 600 17px Constantia,Georgia,serif}
+.field .input{background:var(--bg);border-radius:12px}
+.box{border:1.5px solid var(--muted);border-radius:5px} .box.on{background:var(--clay);border-color:var(--clay);color:#fff}
+.sec{border-top:1px solid var(--line)}
+.card{background:var(--bg);border-radius:16px}
+.avatar{background:var(--clay);color:#fff;border-radius:50% 50% 50% 8px}
+.person:nth-child(3) .avatar{background:var(--olive)}
+.tpl{background:var(--bg);border:1px solid var(--line);border-radius:999px}
+.callout{background:#f6dccf;border-radius:14px} .callout b{color:var(--clay)}
+.ev i{background:var(--c);border-radius:50%}
+.ev .meta{color:var(--muted)} .ev .meta b{color:var(--c)}
+.muted{color:var(--muted);opacity:1}
+.hint{color:var(--muted);background:var(--bg)}
 </style>
 </head>
 <body>
@@ -213,6 +217,6 @@ kbd{font:12px "Courier New",monospace;border:1px solid var(--muted);padding:0 4p
 <footer class="hint"><kbd>n</kbd> new · <kbd>/</kbd> search · <kbd>j</kbd>/<kbd>k</kbd> move · <kbd>Enter</kbd> open · <kbd>b</kbd> brief · <kbd>Esc</kbd> close</footer>
 </div>
 
-<nav class="switcher"><b>Theme</b><a href="broadsheet.html" class="on">Broadsheet</a><a href="phosphor.html" class="">Phosphor</a><a href="block.html" class="">Block</a><a href="riso.html" class="">Riso</a><a href="swiss.html" class="">Swiss</a><a href="ledger.html" class="">Ledger</a><a href="blueprint.html" class="">Blueprint</a><a href="bauhaus.html" class="">Bauhaus</a><a href="departures.html" class="">Departures</a><a href="kiln.html" class="">Kiln</a><a href="synthwave.html" class="">Synthwave</a><a href="paperwhite.html" class="">Paperwhite</a><a href="index.html">All</a></nav>
+<nav class="switcher"><b>Theme</b><a href="broadsheet.html" class="">Broadsheet</a><a href="phosphor.html" class="">Phosphor</a><a href="block.html" class="">Block</a><a href="riso.html" class="">Riso</a><a href="swiss.html" class="">Swiss</a><a href="ledger.html" class="">Ledger</a><a href="blueprint.html" class="">Blueprint</a><a href="bauhaus.html" class="">Bauhaus</a><a href="departures.html" class="">Departures</a><a href="kiln.html" class="on">Kiln</a><a href="synthwave.html" class="">Synthwave</a><a href="paperwhite.html" class="">Paperwhite</a><a href="index.html">All</a></nav>
 </body>
 </html>

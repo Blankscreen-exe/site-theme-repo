@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Broadsheet · Job Tracker theme</title>
-<meta name="description" content="Warm newsprint, serif type, double rules and small caps. Reads like an editorial page.">
+<title>Bauhaus · Job Tracker theme</title>
+<meta name="description" content="Primary red, yellow and blue with circles, squares and triangles. Geometric type, lowercase, confident.">
 <style>
 *{box-sizing:border-box} html,body{margin:0}
 button,input,textarea{font:inherit;color:inherit}
@@ -78,52 +78,60 @@ tbody tr{cursor:pointer}
 @media (max-width:1050px){.layout{grid-template-columns:1fr}.drawer{position:static}}
 @media (max-width:640px){.up{grid-template-columns:1fr;gap:2px}.row2{grid-template-columns:1fr}.layout{padding:12px}.top{padding:12px}.hint{display:none}.switcher{bottom:10px}}
 
-:root{--paper:#f3ede1;--ink:#1c1915;--muted:#6f665a;--soft:#dcd2bf;--red:#b8321f;
---applied:#1f4e8c;--screening:#2e7d6b;--interview:#8a3fa0;--offer:#2f7d32;--rejected:#b8321f;--ghosted:#857c70;--withdrawn:#9b7a4a}
-body{background:var(--paper);color:var(--ink);font:15px/1.5 "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
-.top{border-bottom:3px double var(--ink);padding:20px 24px 12px}
-.brand-name{font-size:32px;font-weight:700;font-style:italic;letter-spacing:-.02em}
-.tabs a{color:var(--muted);font-variant:small-caps;letter-spacing:.06em;font-size:17px;padding:2px 8px}
-.tabs a.on{color:var(--ink);box-shadow:inset 0 -2px var(--red)}
-.search{border-bottom:1px solid var(--ink)} .search input{font-style:italic}
-kbd{font:12px "Courier New",monospace;border:1px solid var(--muted);padding:0 4px;color:var(--muted)}
-.btn{background:none;border:1px solid var(--ink);color:var(--ink)}
-.btn.primary{background:var(--ink);color:var(--paper);font-variant:small-caps;letter-spacing:.06em;font-size:16px}
-.btn.primary kbd{color:var(--paper);border-color:var(--paper)}
-.stats{gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
-.stat{border-right:1px solid var(--soft);padding:10px 18px}
-.stat b{font-size:34px;font-weight:400;color:var(--c,var(--ink))}
-.stat span{font-variant:small-caps;letter-spacing:.05em;color:var(--muted)}
-.stat.warn b{color:var(--red)}
-.upcoming h2{font-size:12px;letter-spacing:.25em;text-transform:uppercase;margin:0;border-bottom:1px solid var(--ink);padding-bottom:4px}
-.up{padding:10px 0;border-bottom:1px dotted var(--muted)}
-.up .when b{font-size:17px}
-.up .what{font-style:italic}
-.chip{border:0;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:2px 4px;font-style:italic}
-.chip.on{color:var(--red);font-weight:700}
-.grid th{font-variant:small-caps;letter-spacing:.06em;font-weight:600;border-bottom:2px solid var(--ink);font-size:15px}
-.grid td{border-bottom:1px solid var(--soft)}
-.grid tr.sel td{background:#e9dfcb}
+:root{--bg:#f2ece0;--ink:#1a1a1a;--red:#d7261e;--yellow:#f2b705;--blue:#1d4e9e;--grey:#8c8578;
+--applied:#1d4e9e;--screening:#1d4e9e;--interview:#d7261e;--offer:#f2b705;--rejected:#1a1a1a;--ghosted:#8c8578;--withdrawn:#8c8578}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 "Century Gothic",Futura,"Avenir Next","URW Gothic","Trebuchet MS",sans-serif}
+.top{border-bottom:4px solid var(--ink);padding:18px 24px}
+.brand-mark{width:36px;height:36px;background:radial-gradient(circle,var(--red) 0 8px,transparent 8.5px),linear-gradient(to top right,var(--blue) 50%,var(--yellow) 50%)}
+.brand-name{font-weight:700;font-size:26px;text-transform:lowercase}
+.tabs a{color:var(--ink);font-weight:700;text-transform:lowercase;border-radius:999px}
+.tabs a.on{background:var(--red);color:#fff}
+.search{border:3px solid var(--ink);border-radius:999px;padding:0 12px}
+kbd{font:700 11px "Century Gothic",sans-serif;background:var(--yellow);padding:0 5px;color:var(--ink)}
+.btn{border:3px solid var(--ink);background:none;font-weight:700;text-transform:lowercase}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue);border-radius:999px}
+.stat{background:#fff;border:3px solid var(--ink);position:relative;overflow:hidden;padding-right:42px}
+.stat::after{content:"";position:absolute;right:-12px;top:-12px;width:38px;height:38px;border-radius:50%;background:var(--c,var(--grey))}
+.stat:nth-child(3n+2)::after{border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.stat:nth-child(3n)::after{border-radius:0}
+.stat b{font-size:32px;font-weight:700}
+.stat span{font-size:12px;text-transform:lowercase;font-weight:700}
+.stat.warn{--c:var(--red)}
+.upcoming{background:var(--blue);color:#fff;border:3px solid var(--ink)}
+.upcoming h2{margin:0;padding:10px 14px 0;font-size:14px;text-transform:lowercase;letter-spacing:.08em;color:var(--yellow)}
+.up+.up{border-top:2px solid rgba(255,255,255,.3)}
+.upcoming .btn{border-color:#fff;color:#fff}
+.chip{border:3px solid var(--ink);background:none;border-radius:999px;font-weight:700;text-transform:lowercase}
+.chip.on{background:var(--yellow)}
+.count{font-weight:700;text-transform:lowercase}
+.tablewrap{background:#fff;border:3px solid var(--ink)}
+.grid th{border-bottom:3px solid var(--ink);text-transform:lowercase;font-weight:700;font-size:13px}
+.grid td{border-bottom:1px solid #d9d2c3}
+.grid tr.sel td{background:#fbe7a6}
 .star{color:var(--red)}
-.pill{font-variant:small-caps;letter-spacing:.04em;color:var(--c);font-weight:600}
-.pill::before{content:"";display:inline-block;width:7px;height:7px;background:var(--c);margin-right:7px;transform:rotate(45deg);vertical-align:1px}
-.tool{font-style:italic;color:var(--muted);padding:0;margin-right:10px}
-.company{font-weight:700;font-size:16px}
-.tag{font-variant:small-caps;color:var(--red);font-size:14px}
-.stale{color:var(--red);font-style:italic}
-.drawer{background:#faf6ee;border:1px solid var(--ink);box-shadow:6px 6px 0 var(--soft)}
-.dh h2{font-size:28px;font-style:italic}
-.field label,.sec h3{font-variant:small-caps;letter-spacing:.08em;color:var(--muted);font-size:15px;font-weight:600}
-.field .input{border-bottom:1px solid var(--muted);padding-left:0}
-.box{border:1px solid var(--ink)} .box.on{background:var(--ink);color:var(--paper)}
-.sec{border-top:1px solid var(--ink)}
-.card{border:1px solid var(--soft);background:var(--paper)}
-.avatar{border-radius:50%;background:var(--ink);color:var(--paper);font-style:italic}
-.tpl{border:1px solid var(--muted);background:none;font-style:italic}
-.callout{border-left:3px solid var(--red);background:#efe3cf;font-style:italic}
-.ev i{background:var(--c);transform:rotate(45deg)}
-.ev .meta b{font-variant:small-caps;color:var(--c);font-size:14px}
-.hint{border-top:1px solid var(--ink);color:var(--muted);font-style:italic;background:var(--paper)}
+.pill{font-weight:700;font-size:13px;text-transform:lowercase}
+.pill::before{content:"";display:inline-block;width:12px;height:12px;background:var(--c);border-radius:50%;margin-right:7px;vertical-align:-1px}
+.pill[data-s=screening]::before,.pill[data-s=rejected]::before{border-radius:0}
+.pill[data-s=offer]::before{border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.tool{border-bottom:3px solid var(--yellow);padding:0;margin-right:10px;font-size:13px}
+.company{font-weight:700}
+.tag{background:var(--ink);color:#fff;font-size:11px;padding:0 6px;text-transform:lowercase}
+.stale{background:var(--red);color:#fff;font-size:12px;padding:0 8px;border-radius:999px}
+.drawer{background:#fff;border:3px solid var(--ink);box-shadow:10px 10px 0 var(--yellow)}
+.dh h2{font-size:26px;text-transform:lowercase}
+.field label,.sec h3{text-transform:lowercase;font-weight:700;font-size:13px;color:var(--blue)}
+.field .input{border:2px solid var(--ink)}
+.box{border:2px solid var(--ink);border-radius:50%} .box.on{background:var(--red);color:#fff;border-color:var(--red)}
+.sec{border-top:3px solid var(--ink)}
+.card{border:2px solid var(--ink);border-left:12px solid var(--red)}
+.avatar{background:var(--yellow);border-radius:50%}
+.person:nth-child(3) .avatar{background:var(--blue);color:#fff;border-radius:0}
+.tpl{border:2px solid var(--ink);background:none;border-radius:999px;text-transform:lowercase;font-weight:700}
+.callout{background:var(--red);color:#fff;font-weight:700}
+.ev i{background:var(--c);border-radius:50%;width:12px;height:12px}
+.ev[data-k=call] i{border-radius:0} .ev[data-k=email] i{border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.ev .meta b{color:var(--c);text-transform:lowercase}
+.hint{border-top:3px solid var(--ink);background:var(--bg)}
 </style>
 </head>
 <body>
@@ -213,6 +221,6 @@ kbd{font:12px "Courier New",monospace;border:1px solid var(--muted);padding:0 4p
 <footer class="hint"><kbd>n</kbd> new · <kbd>/</kbd> search · <kbd>j</kbd>/<kbd>k</kbd> move · <kbd>Enter</kbd> open · <kbd>b</kbd> brief · <kbd>Esc</kbd> close</footer>
 </div>
 
-<nav class="switcher"><b>Theme</b><a href="broadsheet.html" class="on">Broadsheet</a><a href="phosphor.html" class="">Phosphor</a><a href="block.html" class="">Block</a><a href="riso.html" class="">Riso</a><a href="swiss.html" class="">Swiss</a><a href="ledger.html" class="">Ledger</a><a href="blueprint.html" class="">Blueprint</a><a href="bauhaus.html" class="">Bauhaus</a><a href="departures.html" class="">Departures</a><a href="kiln.html" class="">Kiln</a><a href="synthwave.html" class="">Synthwave</a><a href="paperwhite.html" class="">Paperwhite</a><a href="index.html">All</a></nav>
+<nav class="switcher"><b>Theme</b><a href="broadsheet.html" class="">Broadsheet</a><a href="phosphor.html" class="">Phosphor</a><a href="block.html" class="">Block</a><a href="riso.html" class="">Riso</a><a href="swiss.html" class="">Swiss</a><a href="ledger.html" class="">Ledger</a><a href="blueprint.html" class="">Blueprint</a><a href="bauhaus.html" class="on">Bauhaus</a><a href="departures.html" class="">Departures</a><a href="kiln.html" class="">Kiln</a><a href="synthwave.html" class="">Synthwave</a><a href="paperwhite.html" class="">Paperwhite</a><a href="index.html">All</a></nav>
 </body>
 </html>

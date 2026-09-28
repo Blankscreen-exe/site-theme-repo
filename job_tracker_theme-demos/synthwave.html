@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Broadsheet · Job Tracker theme</title>
-<meta name="description" content="Warm newsprint, serif type, double rules and small caps. Reads like an editorial page.">
+<title>Synthwave · Job Tracker theme</title>
+<meta name="description" content="80s neon: deep purple night, hot pink and cyan glow, a retro sun. Loud, fun, very dark.">
 <style>
 *{box-sizing:border-box} html,body{margin:0}
 button,input,textarea{font:inherit;color:inherit}
@@ -78,52 +78,61 @@ tbody tr{cursor:pointer}
 @media (max-width:1050px){.layout{grid-template-columns:1fr}.drawer{position:static}}
 @media (max-width:640px){.up{grid-template-columns:1fr;gap:2px}.row2{grid-template-columns:1fr}.layout{padding:12px}.top{padding:12px}.hint{display:none}.switcher{bottom:10px}}
 
-:root{--paper:#f3ede1;--ink:#1c1915;--muted:#6f665a;--soft:#dcd2bf;--red:#b8321f;
---applied:#1f4e8c;--screening:#2e7d6b;--interview:#8a3fa0;--offer:#2f7d32;--rejected:#b8321f;--ghosted:#857c70;--withdrawn:#9b7a4a}
-body{background:var(--paper);color:var(--ink);font:15px/1.5 "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
-.top{border-bottom:3px double var(--ink);padding:20px 24px 12px}
-.brand-name{font-size:32px;font-weight:700;font-style:italic;letter-spacing:-.02em}
-.tabs a{color:var(--muted);font-variant:small-caps;letter-spacing:.06em;font-size:17px;padding:2px 8px}
-.tabs a.on{color:var(--ink);box-shadow:inset 0 -2px var(--red)}
-.search{border-bottom:1px solid var(--ink)} .search input{font-style:italic}
-kbd{font:12px "Courier New",monospace;border:1px solid var(--muted);padding:0 4px;color:var(--muted)}
-.btn{background:none;border:1px solid var(--ink);color:var(--ink)}
-.btn.primary{background:var(--ink);color:var(--paper);font-variant:small-caps;letter-spacing:.06em;font-size:16px}
-.btn.primary kbd{color:var(--paper);border-color:var(--paper)}
-.stats{gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
-.stat{border-right:1px solid var(--soft);padding:10px 18px}
-.stat b{font-size:34px;font-weight:400;color:var(--c,var(--ink))}
-.stat span{font-variant:small-caps;letter-spacing:.05em;color:var(--muted)}
-.stat.warn b{color:var(--red)}
-.upcoming h2{font-size:12px;letter-spacing:.25em;text-transform:uppercase;margin:0;border-bottom:1px solid var(--ink);padding-bottom:4px}
-.up{padding:10px 0;border-bottom:1px dotted var(--muted)}
-.up .when b{font-size:17px}
-.up .what{font-style:italic}
-.chip{border:0;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:2px 4px;font-style:italic}
-.chip.on{color:var(--red);font-weight:700}
-.grid th{font-variant:small-caps;letter-spacing:.06em;font-weight:600;border-bottom:2px solid var(--ink);font-size:15px}
-.grid td{border-bottom:1px solid var(--soft)}
-.grid tr.sel td{background:#e9dfcb}
-.star{color:var(--red)}
-.pill{font-variant:small-caps;letter-spacing:.04em;color:var(--c);font-weight:600}
-.pill::before{content:"";display:inline-block;width:7px;height:7px;background:var(--c);margin-right:7px;transform:rotate(45deg);vertical-align:1px}
-.tool{font-style:italic;color:var(--muted);padding:0;margin-right:10px}
-.company{font-weight:700;font-size:16px}
-.tag{font-variant:small-caps;color:var(--red);font-size:14px}
-.stale{color:var(--red);font-style:italic}
-.drawer{background:#faf6ee;border:1px solid var(--ink);box-shadow:6px 6px 0 var(--soft)}
-.dh h2{font-size:28px;font-style:italic}
-.field label,.sec h3{font-variant:small-caps;letter-spacing:.08em;color:var(--muted);font-size:15px;font-weight:600}
-.field .input{border-bottom:1px solid var(--muted);padding-left:0}
-.box{border:1px solid var(--ink)} .box.on{background:var(--ink);color:var(--paper)}
-.sec{border-top:1px solid var(--ink)}
-.card{border:1px solid var(--soft);background:var(--paper)}
-.avatar{border-radius:50%;background:var(--ink);color:var(--paper);font-style:italic}
-.tpl{border:1px solid var(--muted);background:none;font-style:italic}
-.callout{border-left:3px solid var(--red);background:#efe3cf;font-style:italic}
-.ev i{background:var(--c);transform:rotate(45deg)}
-.ev .meta b{font-variant:small-caps;color:var(--c);font-size:14px}
-.hint{border-top:1px solid var(--ink);color:var(--muted);font-style:italic;background:var(--paper)}
+:root{--bg:#140a2a;--panel:rgba(35,16,70,.78);--ink:#f3e9ff;--dim:#a58fd1;--pink:#ff3ea5;--cyan:#26f0ff;--orange:#ff9f43;--line:rgba(255,62,165,.35);
+--applied:#26f0ff;--screening:#8b7bff;--interview:#ff3ea5;--offer:#7dff9b;--rejected:#ff6b6b;--ghosted:#7d6ba3;--withdrawn:#c9a36b}
+body{background:radial-gradient(1100px 520px at 50% 115%,rgba(255,62,165,.4),transparent 70%),
+ repeating-linear-gradient(90deg,rgba(38,240,255,.06) 0 1px,transparent 1px 64px),linear-gradient(#140a2a,#220c46);
+ background-attachment:fixed;color:var(--ink);font:14.5px/1.5 "Segoe UI",system-ui,sans-serif}
+.top{border-bottom:1px solid var(--line);background:rgba(20,10,42,.6)}
+.brand-mark{width:30px;height:30px;border-radius:50%;background:linear-gradient(#ffd23f,#ff3ea5 70%);
+ -webkit-mask:linear-gradient(#000 52%,transparent 52% 58%,#000 58% 68%,transparent 68% 74%,#000 74% 82%,transparent 82% 88%,#000 88%);
+ mask:linear-gradient(#000 52%,transparent 52% 58%,#000 58% 68%,transparent 68% 74%,#000 74% 82%,transparent 82% 88%,#000 88%)}
+.brand-name{font-weight:800;font-style:italic;font-size:24px;text-transform:uppercase;letter-spacing:.03em;
+ background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tabs a{color:var(--dim)}
+.tabs a.on{color:var(--ink);box-shadow:inset 0 -2px var(--cyan);text-shadow:0 0 10px var(--cyan)}
+.search{background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:8px}
+.search input::placeholder{color:var(--dim)}
+kbd{font:11px Consolas,monospace;color:var(--cyan);border:1px solid rgba(38,240,255,.4);padding:0 5px;border-radius:4px}
+.btn{background:rgba(0,0,0,.28);border:1px solid var(--line);color:var(--ink);border-radius:8px}
+.btn.primary{background:linear-gradient(90deg,var(--pink),#ff7a59);border:0;color:#fff;font-weight:700;box-shadow:0 0 20px rgba(255,62,165,.5)}
+.btn.primary kbd{color:#fff;border-color:rgba(255,255,255,.6)}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.stat b{font-size:28px;font-weight:800;color:var(--c,var(--ink));text-shadow:0 0 12px var(--c,transparent)}
+.stat span{color:var(--dim);font-size:12px}
+.stat.warn{--c:var(--orange)}
+.upcoming{background:var(--panel);border:1px solid var(--cyan);border-radius:12px;box-shadow:0 0 24px rgba(38,240,255,.2)}
+.upcoming h2{margin:0;padding:10px 14px 0;font-size:12px;text-transform:uppercase;letter-spacing:.22em;color:var(--cyan)}
+.up .when b{color:var(--cyan)}
+.up .what,.up span{color:var(--dim)}
+.chip{background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:999px;color:var(--dim)}
+.chip.on{border-color:var(--pink);color:#fff;background:rgba(255,62,165,.25);box-shadow:0 0 12px rgba(255,62,165,.45)}
+.count{color:var(--dim)}
+.tablewrap{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.grid th{color:var(--pink);text-transform:uppercase;letter-spacing:.14em;font-size:11px;border-bottom:1px solid var(--line)}
+.grid td{border-bottom:1px solid rgba(255,255,255,.06)}
+.grid tr.sel td{background:rgba(38,240,255,.08)} .grid tr.sel td:first-child{box-shadow:inset 3px 0 var(--cyan)}
+.star{color:var(--orange);text-shadow:0 0 8px var(--orange)}
+.pill{color:var(--c);border:1px solid var(--c);border-radius:999px;padding:1px 10px;font-size:12px;
+ box-shadow:0 0 10px color-mix(in srgb,var(--c) 40%,transparent),inset 0 0 8px color-mix(in srgb,var(--c) 25%,transparent)}
+.tool{color:var(--dim);font-size:12px;border:1px solid rgba(165,143,209,.3);border-radius:4px}
+.company{font-weight:700}
+.tag{color:var(--cyan);font-size:11px}
+.stale{color:var(--orange);font-size:12px;text-shadow:0 0 8px var(--orange)}
+.drawer{background:rgba(30,12,60,.94);border:1px solid var(--pink);border-radius:14px;box-shadow:0 0 40px rgba(255,62,165,.25)}
+.dh h2{font-weight:800;font-style:italic;font-size:24px}
+.field label,.sec h3{color:var(--pink);font-size:11px;text-transform:uppercase;letter-spacing:.16em}
+.field .input{background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:8px}
+.box{border:1px solid var(--cyan);border-radius:4px} .box.on{background:var(--cyan);color:#140a2a}
+.sec{border-top:1px solid var(--line)}
+.card{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:10px}
+.avatar{border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--pink));color:#140a2a}
+.tpl{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:999px}
+.callout{border:1px solid var(--cyan);background:rgba(38,240,255,.08);border-radius:10px} .callout b{color:var(--cyan)}
+.ev i{background:var(--c);border-radius:50%;box-shadow:0 0 10px var(--c)}
+.ev .meta{color:var(--dim)} .ev .meta b{color:var(--c)}
+.muted{color:var(--dim);opacity:1}
+.hint{color:var(--dim);background:#140a2a;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -213,6 +222,6 @@ kbd{font:12px "Courier New",monospace;border:1px solid var(--muted);padding:0 4p
 <footer class="hint"><kbd>n</kbd> new · <kbd>/</kbd> search · <kbd>j</kbd>/<kbd>k</kbd> move · <kbd>Enter</kbd> open · <kbd>b</kbd> brief · <kbd>Esc</kbd> close</footer>
 </div>
 
-<nav class="switcher"><b>Theme</b><a href="broadsheet.html" class="on">Broadsheet</a><a href="phosphor.html" class="">Phosphor</a><a href="block.html" class="">Block</a><a href="riso.html" class="">Riso</a><a href="swiss.html" class="">Swiss</a><a href="ledger.html" class="">Ledger</a><a href="blueprint.html" class="">Blueprint</a><a href="bauhaus.html" class="">Bauhaus</a><a href="departures.html" class="">Departures</a><a href="kiln.html" class="">Kiln</a><a href="synthwave.html" class="">Synthwave</a><a href="paperwhite.html" class="">Paperwhite</a><a href="index.html">All</a></nav>
+<nav class="switcher"><b>Theme</b><a href="broadsheet.html" class="">Broadsheet</a><a href="phosphor.html" class="">Phosphor</a><a href="block.html" class="">Block</a><a href="riso.html" class="">Riso</a><a href="swiss.html" class="">Swiss</a><a href="ledger.html" class="">Ledger</a><a href="blueprint.html" class="">Blueprint</a><a href="bauhaus.html" class="">Bauhaus</a><a href="departures.html" class="">Departures</a><a href="kiln.html" class="">Kiln</a><a href="synthwave.html" class="on">Synthwave</a><a href="paperwhite.html" class="">Paperwhite</a><a href="index.html">All</a></nav>
 </body>
 </html>

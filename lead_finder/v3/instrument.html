@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeadFinder — Instrument</title>
+<meta name="description" content="Design demo: Instrument direction for LeadFinder. Synthetic data only.">
+<script>(function () {
+  try { var m = localStorage.getItem('lf-v3-instrument'); if (m === 'light' || m === 'dark') document.documentElement.setAttribute('data-theme', m); } catch (e) {}
+})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Instrument: Industrial product design (think 1960s Braun): machined grey panels, LED indicators, one orange control. */
+:root{color-scheme:light;--bg:#DCDAD4;--surface:#F2F1ED;--surface-2:#E6E4DE;--ink:#22221F;--ink-2:#4C4B46;--ink-3:#686761;
+--line:#C6C3BA;--line-strong:#8E8B83;--field-border:#9A978F;--accent:#E8590C;--on-accent:#FFFFFF;--accent-wash:#F7E3D6;--focus:#E8590C;
+--st-new:#9A978F;--st-contacted:#3D7BC4;--st-replied:#E8590C;--st-qualified:#D9A21B;--st-won:#4C9A3D;--st-lost:#C23A2A;
+--bevel:inset 0 1px 0 rgba(255,255,255,.75),0 1px 2px rgba(0,0,0,.12);--recess:inset 0 1px 2px rgba(0,0,0,.14);--rail-bg:#D3D1CA;--field-bg:#ECEAE5;
+--font-display:"Schibsted Grotesk",system-ui,sans-serif;--font-body:"Schibsted Grotesk",system-ui,sans-serif;--font-mono:"DM Mono",ui-monospace,monospace;--radius:4px;--avatar-radius:50%;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#1A1A19;--surface:#242422;--surface-2:#2D2D2A;--ink:#ECEAE4;--ink-2:#BEBBB3;--ink-3:#918E87;
+--line:#383735;--line-strong:#5C5A54;--field-border:#5C5A54;--accent:#FF7A2E;--on-accent:#1A1A19;--accent-wash:#3A271C;--focus:#FF7A2E;
+--st-new:#918E87;--st-contacted:#6FA8EC;--st-replied:#FF7A2E;--st-qualified:#F0C04A;--st-won:#7CCB6A;--st-lost:#F06A57;
+--bevel:inset 0 1px 0 rgba(255,255,255,.05),0 1px 2px rgba(0,0,0,.5);--recess:inset 0 1px 3px rgba(0,0,0,.55);--rail-bg:#141413;--field-bg:#1E1E1C;}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1A1A19;--surface:#242422;--surface-2:#2D2D2A;--ink:#ECEAE4;--ink-2:#BEBBB3;--ink-3:#918E87;
+--line:#383735;--line-strong:#5C5A54;--field-border:#5C5A54;--accent:#FF7A2E;--on-accent:#1A1A19;--accent-wash:#3A271C;--focus:#FF7A2E;
+--st-new:#918E87;--st-contacted:#6FA8EC;--st-replied:#FF7A2E;--st-qualified:#F0C04A;--st-won:#7CCB6A;--st-lost:#F06A57;
+--bevel:inset 0 1px 0 rgba(255,255,255,.05),0 1px 2px rgba(0,0,0,.5);--recess:inset 0 1px 3px rgba(0,0,0,.55);--rail-bg:#141413;--field-bg:#1E1E1C;}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.rail{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:32px;padding:24px 16px;border-right:1px solid var(--line);background:var(--rail-bg,var(--bg))}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px}
+.brand-mark{display:inline-block;width:18px;height:18px;background:var(--accent)}
+.brand-name{font-family:var(--font-display);font-size:19px;font-weight:600}
+.rail ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.rail nav a{display:flex;align-items:center;gap:12px;padding:8px;text-decoration:none;color:var(--ink-2);border-radius:var(--radius)}
+.rail nav a:hover{color:var(--ink);background:var(--surface-2)}
+.rail nav a[aria-current="page"]{color:var(--ink);background:var(--surface-2)}
+.nav-idx{font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+.nav-label{flex:1}
+.nav-count{font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+.ws{margin-top:auto;padding:12px 8px;border-top:1px solid var(--line)}
+.ws-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3)}
+.ws-name{font-weight:600}
+.ws-sub{font-size:13px;color:var(--ink-3)}
+main{min-width:0}
+.topbar{display:flex;align-items:center;gap:16px;padding:14px 32px;border-bottom:1px solid var(--line)}
+.search{flex:1;max-width:440px}
+.topbar-end{margin-left:auto;display:flex;align-items:center;gap:12px}
+.avatar{display:inline-grid;place-items:center;width:32px;height:32px;font-size:12px;font-weight:600;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:var(--avatar-radius,var(--radius))}
+.page{padding:36px 32px 64px;display:grid;gap:32px}
+.page-head{position:relative;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px}
+.page-head>div{position:relative}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;color:var(--ink-3)}
+h1{margin:4px 0 6px;font-family:var(--font-display);font-size:52px;line-height:1;font-weight:600}
+h2{margin:4px 0 2px;font-family:var(--font-display);font-size:26px;line-height:1.15;font-weight:600}
+.lede{margin:0;color:var(--ink-2);max-width:52ch}
+.muted{margin:0 0 10px;color:var(--ink-2);font-size:14px}
+.mono{font-family:var(--font-mono);font-size:13px}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.deco{display:none}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.kpi{position:relative;padding:16px 0 0;border-top:1px solid var(--line-strong);overflow:hidden}
+.kpi-label{font-size:13px;color:var(--ink-2)}
+.kpi-value{font-family:var(--font-display);font-size:48px;line-height:1.05;font-variant-numeric:tabular-nums;margin:6px 0 2px}
+.kpi-note{font-size:13px;color:var(--ink-3)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);min-width:0}
+.filters{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.field-inline{display:block}
+.filters input{width:220px}
+input[type=search],select,textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--field-bg,var(--surface));border:1px solid var(--field-border);border-radius:var(--radius);padding:8px 10px;max-width:100%}
+.search input{width:100%}
+textarea{width:100%;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--ink-3)}
+.segmented{display:inline-flex;border:1px solid var(--field-border);border-radius:var(--radius);overflow:hidden;margin-left:auto}
+.segmented button{font:inherit;font-size:13px;padding:7px 12px;background:transparent;color:var(--ink-2);border:0;cursor:pointer}
+.segmented button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-size:12px;font-weight:500;text-align:left;color:var(--ink-3);padding:10px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 16px;border-bottom:1px solid var(--line);white-space:nowrap;color:var(--ink-2)}
+tr.is-selected td{background:var(--surface-2)}
+tbody tr:hover td{background:var(--surface-2)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.entity{display:grid;text-decoration:none}
+.entity-name{color:var(--ink);font-weight:600}
+.entity-sub{font-size:13px;color:var(--ink-3)}
+.table-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;font-size:13px;color:var(--ink-3)}
+.pager{display:flex;gap:6px}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);white-space:nowrap}
+.mark{display:inline-block;width:8px;height:8px;background:var(--c)}
+.st-new{--c:var(--st-new)}.st-contacted{--c:var(--st-contacted)}.st-replied{--c:var(--st-replied)}
+.st-qualified{--c:var(--st-qualified)}.st-won{--c:var(--st-won)}.st-lost{--c:var(--st-lost)}
+.btn{font:inherit;font-size:14px;font-weight:500;padding:9px 16px;border-radius:var(--radius);border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn-secondary{background:transparent;color:var(--ink);border-color:var(--field-border)}
+.btn-ghost{background:transparent;color:var(--ink-2);border-color:transparent}
+.btn-ghost:hover{color:var(--ink);background:var(--surface-2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.detail{padding:20px;display:grid;gap:18px}
+.facts{margin:0;display:grid;gap:8px}
+.facts div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px;font-size:14px}
+.facts dt{color:var(--ink-3)}
+.facts dd{margin:0;color:var(--ink);overflow-wrap:anywhere}
+.notice{font-size:14px;padding:12px 14px;border-left:3px solid var(--accent);background:var(--accent-wash);color:var(--ink)}
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.timeline li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;font-size:14px}
+.t-when{font-family:var(--font-mono);font-size:12px;color:var(--ink-3);padding-top:2px}
+.t-what{color:var(--ink-2)}
+.t-what b{color:var(--ink);font-weight:600;display:block}
+.note-form{display:grid;gap:10px;padding-top:16px;border-top:1px solid var(--line)}
+.note-form>label:first-child{font-size:13px;font-weight:600}
+.check{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2)}
+.check input{accent-color:var(--accent);width:16px;height:16px}
+@media (max-width:1180px){.split{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:800px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;height:auto;flex-direction:row;align-items:center;gap:16px;padding:12px 16px;border-right:0;border-bottom:1px solid var(--line);overflow-x:auto}
+  .rail ul{display:flex}.rail nav a{white-space:nowrap}.nav-idx,.nav-count,.ws{display:none}
+  .topbar{padding:12px 16px}.page{padding:24px 16px 48px}
+  h1{font-size:40px}.kpi-value{font-size:38px}
+  .filters input{width:100%}.field-inline{flex:1 1 100%}.segmented{margin-left:0}
+}
+
+/* ---- Instrument character ---- */
+
+.brand-mark{border-radius:50%;width:16px;height:16px;box-shadow:0 0 0 3px var(--surface),0 0 0 4px var(--line-strong)}
+.brand-name{font-weight:700;letter-spacing:-.01em}
+.rail{background-image:radial-gradient(var(--line-strong) .8px,transparent 1px);background-size:6px 6px;background-position:0 0;background-color:var(--rail-bg)}
+.rail nav,.rail .ws,.brand{background:var(--rail-bg)}
+.rail nav a[aria-current="page"]{background:var(--surface);box-shadow:var(--bevel)}
+.rail nav a[aria-current="page"] .nav-idx{color:var(--accent)}
+.rail nav a[aria-current="page"] .nav-idx::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);margin-right:6px;vertical-align:1px}
+h1{font-weight:700;letter-spacing:-.03em;font-size:56px}
+.eyebrow,.kpi-label,th,.ws-label{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.card,.kpi{background:var(--surface);box-shadow:var(--bevel);border:1px solid var(--line)}
+.kpi{padding:14px 16px;border-radius:var(--radius)}
+.kpi-label::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--st-won);box-shadow:0 0 6px var(--st-won);margin-right:8px;vertical-align:1px}
+.kpi-value{font-family:var(--font-mono);font-weight:400;font-size:44px;letter-spacing:-.02em;background:var(--field-bg);box-shadow:var(--recess);border-radius:3px;padding:2px 10px;display:inline-block}
+.mark{border-radius:50%;box-shadow:0 0 0 2px var(--surface),0 0 7px var(--c)}
+input[type=search],select,textarea{box-shadow:var(--recess)}
+.btn-primary{box-shadow:var(--bevel);font-weight:600}
+.btn-secondary{background:var(--surface);box-shadow:var(--bevel);border-color:var(--line)}
+.segmented{box-shadow:var(--recess);background:var(--field-bg)}
+.segmented button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--bevel);border-radius:3px}
+.notice{border-left:0;border-radius:var(--radius);box-shadow:var(--recess);background:var(--field-bg)}
+.notice strong::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);margin-right:8px;vertical-align:1px}
+.kpi-value,.num,.t-when{font-variant-numeric:tabular-nums}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">LeadFinder</span></div>
+    <nav aria-label="Main"><ul><li><a href="#"><span class="nav-idx">01</span><span class="nav-label">Overview</span></a></li>
+<li><a href="#" aria-current="page"><span class="nav-idx">02</span><span class="nav-label">Leads</span><span class="nav-count">1,284</span></a></li>
+<li><a href="#"><span class="nav-idx">03</span><span class="nav-label">Companies</span><span class="nav-count">932</span></a></li>
+<li><a href="#"><span class="nav-idx">04</span><span class="nav-label">Contacts</span><span class="nav-count">2,041</span></a></li>
+<li><a href="#"><span class="nav-idx">05</span><span class="nav-label">Sequences</span><span class="nav-count">4</span></a></li>
+<li><a href="#"><span class="nav-idx">06</span><span class="nav-label">Inbound</span><span class="nav-count">2</span></a></li>
+<li><a href="#"><span class="nav-idx">07</span><span class="nav-label">Imports</span></a></li>
+<li><a href="#"><span class="nav-idx">08</span><span class="nav-label">Connections</span></a></li></ul></nav>
+    <div class="ws"><div class="ws-label">Workspace</div><div class="ws-name">Northstar Software</div><div class="ws-sub">2 members</div></div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <label class="search"><span class="sr-only">Search</span><input type="search" placeholder="Search leads, companies, people…"></label>
+      <div class="topbar-end">
+        <button type="button" class="btn btn-ghost theme-toggle" data-theme-toggle>Theme: System</button>
+        <span class="avatar" aria-label="Signed in as you">YO</span>
+      </div>
+    </header>
+    <div class="page">
+      <section class="page-head">
+        <span class="deco" aria-hidden="true"></span>
+        <div>
+          <div class="eyebrow">02 — Pipeline</div>
+          <h1>Leads</h1>
+          <p class="lede">Everyone you're working, from first touch to signed client.</p>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-secondary">Export CSV</button>
+          <button type="button" class="btn btn-primary">Find leads</button>
+        </div>
+      </section>
+
+      <section class="kpis" aria-label="This week"><div class="kpi"><span class="deco" aria-hidden="true"></span>
+  <div class="kpi-label">New this week</div><div class="kpi-value">128</div><div class="kpi-note">+14% vs last week</div></div>
+<div class="kpi"><span class="deco" aria-hidden="true"></span>
+  <div class="kpi-label">Contacted</div><div class="kpi-value">64</div><div class="kpi-note">50% of new</div></div>
+<div class="kpi"><span class="deco" aria-hidden="true"></span>
+  <div class="kpi-label">Replied</div><div class="kpi-value">17</div><div class="kpi-note">26.6% reply rate</div></div>
+<div class="kpi"><span class="deco" aria-hidden="true"></span>
+  <div class="kpi-label">Won</div><div class="kpi-value">3</div><div class="kpi-note">2 in proposal</div></div></section>
+
+      <div class="split">
+        <section class="card" aria-label="Leads">
+          <div class="filters">
+            <label class="field-inline"><span class="sr-only">Filter</span><input type="search" placeholder="Filter by name or company"></label>
+            <label class="field-inline"><span class="sr-only">Stage</span><select><option>All stages</option><option>New</option><option>Contacted</option><option>Replied</option></select></label>
+            <label class="field-inline"><span class="sr-only">Owner</span><select><option>Any owner</option><option>You</option></select></label>
+            <div class="segmented" role="group" aria-label="View"><button type="button" aria-pressed="true">Table</button><button type="button" aria-pressed="false">Board</button></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">Lead</th><th scope="col">Stage</th><th scope="col">Source</th><th scope="col">Owner</th><th scope="col" class="num">Last activity</th></tr></thead>
+              <tbody><tr aria-selected="true" class="is-selected">
+  <td><a class="entity" href="#"><span class="entity-name">Mara Okafor</span><span class="entity-sub">Northwind Labs</span></a></td>
+  <td><span class="status st-replied"><i class="mark" aria-hidden="true"></i>Replied</span></td>
+  <td>Apollo</td>
+  <td>You</td>
+  <td class="num">2h ago</td>
+</tr>
+<tr>
+  <td><a class="entity" href="#"><span class="entity-name">Theo Lindqvist</span><span class="entity-sub">Halcyon Freight</span></a></td>
+  <td><span class="status st-contacted"><i class="mark" aria-hidden="true"></i>Contacted</span></td>
+  <td>LeadIQ</td>
+  <td>A. Reyes</td>
+  <td class="num">5h ago</td>
+</tr>
+<tr>
+  <td><a class="entity" href="#"><span class="entity-name">Priya Raman</span><span class="entity-sub">Brightline Health</span></a></td>
+  <td><span class="status st-qualified"><i class="mark" aria-hidden="true"></i>Qualified</span></td>
+  <td>Form</td>
+  <td>A. Reyes</td>
+  <td class="num">Yesterday</td>
+</tr>
+<tr>
+  <td><a class="entity" href="#"><span class="entity-name">Jonas Weber</span><span class="entity-sub">Kettle &amp; Co</span></a></td>
+  <td><span class="status st-new"><i class="mark" aria-hidden="true"></i>New</span></td>
+  <td>CSV</td>
+  <td>Unassigned</td>
+  <td class="num">3d ago</td>
+</tr>
+<tr>
+  <td><a class="entity" href="#"><span class="entity-name">Lucía Ferraz</span><span class="entity-sub">Orbital Studio</span></a></td>
+  <td><span class="status st-won"><i class="mark" aria-hidden="true"></i>Won</span></td>
+  <td>Apollo</td>
+  <td>You</td>
+  <td class="num">5d ago</td>
+</tr>
+<tr>
+  <td><a class="entity" href="#"><span class="entity-name">Dev Malhotra</span><span class="entity-sub">Quarry Analytics</span></a></td>
+  <td><span class="status st-lost"><i class="mark" aria-hidden="true"></i>Lost</span></td>
+  <td>LeadIQ</td>
+  <td>A. Reyes</td>
+  <td class="num">1w ago</td>
+</tr>
+<tr>
+  <td><a class="entity" href="#"><span class="entity-name">Ines Haddad</span><span class="entity-sub">Polar Grid</span></a></td>
+  <td><span class="status st-contacted"><i class="mark" aria-hidden="true"></i>Contacted</span></td>
+  <td>Apollo</td>
+  <td>You</td>
+  <td class="num">1w ago</td>
+</tr></tbody>
+            </table>
+          </div>
+          <div class="table-foot"><span>1–7 of 1,284</span><div class="pager"><button type="button" class="btn btn-ghost" disabled>Previous</button><button type="button" class="btn btn-ghost">Next</button></div></div>
+        </section>
+
+        <aside class="card detail" aria-label="Lead detail">
+          <div class="detail-head">
+            <div class="eyebrow">Lead</div>
+            <h2>Mara Okafor</h2>
+            <p class="muted">Head of Engineering · Northwind Labs</p>
+            <span class="status st-replied"><i class="mark" aria-hidden="true"></i>Replied</span>
+          </div>
+          <dl class="facts">
+            <div><dt>Email</dt><dd class="mono">m.okafor@northwind.example</dd></div>
+            <div><dt>Company size</dt><dd>51–200</dd></div>
+            <div><dt>Location</dt><dd>Lisbon, PT</dd></div>
+            <div><dt>Sequence</dt><dd>Agency intro · step 2 of 4</dd></div>
+          </dl>
+          <div class="notice" role="status"><strong>Sequence stopped.</strong> Mara replied 2h ago. Answer from your inbox to keep the thread.</div>
+          <ol class="timeline">
+            <li><span class="t-when">2h ago</span><span class="t-what"><b>Reply received</b> “Happy to talk — Thursday works.”</span></li>
+            <li><span class="t-when">3d ago</span><span class="t-what"><b>Email sent</b> Step 2 · follow-up</span></li>
+            <li><span class="t-when">7d ago</span><span class="t-what"><b>Email sent</b> Step 1 · intro</span></li>
+            <li><span class="t-when">9d ago</span><span class="t-what"><b>Imported</b> from Apollo</span></li>
+          </ol>
+          <form class="note-form" onsubmit="return false">
+            <label for="note">Add a note</label>
+            <textarea id="note" rows="3" placeholder="Call notes, next steps…"></textarea>
+            <label class="check"><input type="checkbox" checked> Remind me on Thursday</label>
+            <div class="actions"><button type="submit" class="btn btn-secondary">Save note</button><button type="button" class="btn btn-primary">Move to Qualified</button></div>
+          </form>
+        </aside>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  var KEY = 'lf-v3-instrument';
+  var root = document.documentElement;
+  var btn = document.querySelector('[data-theme-toggle]');
+  var order = ['system', 'light', 'dark'];
+  function current() { return root.getAttribute('data-theme') || 'system'; }
+  function label() { var c = current(); btn.textContent = 'Theme: ' + c.charAt(0).toUpperCase() + c.slice(1); }
+  btn.addEventListener('click', function () {
+    var next = order[(order.indexOf(current()) + 1) % order.length];
+    if (next === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', next);
+    try { if (next === 'system') localStorage.removeItem(KEY); else localStorage.setItem(KEY, next); } catch (e) {}
+    label();
+  });
+  label();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logo Pop - ExpenTable theme</title>
+    <link rel="stylesheet" href="vendor/bulma.min.css" />
+    <link rel="stylesheet" href="vendor/fa/css/all.min.css" />
+    <link rel="stylesheet" href="mockup.css" />
+    <style>
+/* ===== Theme: Logo Pop ===== */
+html[data-theme] {
+  --bulma-scheme-h: 38;
+  --bulma-scheme-s: 70%;
+  --bulma-scheme-main-l: 97%;
+  --bulma-scheme-main-bis-l: 100%;
+  --bulma-scheme-main-ter-l: 93%;
+  --bulma-background-l: 93%;
+  --bulma-border-l: 86%;
+  --bulma-text-h: 307;
+  --bulma-text-s: 29%;
+  --bulma-text-l: 30%;
+  --bulma-text-strong-l: 22%;
+  --bulma-text-weak-l: 50%;
+  --bulma-text-title-l: 22%;
+  --bulma-primary-h: 335deg;
+  --bulma-primary-s: 85%;
+  --bulma-primary-l: 55%;
+  --bulma-primary-invert-l: 100%;
+  --bulma-radius: 0.9rem;
+  --bulma-radius-small: 0.6rem;
+  --card-radius: 1.1rem;
+  --heading-font: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
+  --heading-weight: 800;
+  --stage: hsl(38, 45%, 88%);
+}
+
+/* One logo colour per category, assigned by position */
+.cat-1 { --cat: #ee2a7b; }
+.cat-2 { --cat: #00a5bd; }
+.cat-3 { --cat: #f07f3c; }
+.cat-4 { --cat: #5b3256; }
+
+.header .title {
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.task-card,
+.edit-card {
+  border: 2px solid color-mix(in srgb, var(--cat) 35%, transparent);
+  background: color-mix(in srgb, var(--cat) 10%, #fff);
+}
+
+.task-card__category,
+.edit-card__category {
+  color: var(--cat);
+  font-weight: 800;
+  opacity: 1;
+}
+
+.task-card.is-done {
+  border-color: var(--cat);
+  background: var(--cat);
+  color: #fff;
+}
+
+.task-card.is-done .task-card__category,
+.task-card.is-done .task-card__title,
+.task-card.is-done .task-card__check {
+  color: #fff;
+}
+
+.day-strip__day.is-selected {
+  background: var(--accent);
+  color: #fff;
+}
+
+.category-row .input {
+  border-left: 0.5rem solid var(--cat);
+}
+
+.table th.cat-1, .table th.cat-2, .table th.cat-3, .table th.cat-4 {
+  color: var(--cat);
+}
+    </style>
+  </head>
+  <body>
+    <div class="stage-bar">
+      <h1>3. Logo Pop</h1>
+      <p>Playful and built from the wordmark: cream background, one logo colour per category, chunky rounded cards.</p>
+      <nav><a href="02-paper.html">&larr; Paper</a><a href="index.html">All themes</a><a href="04-nord.html">Nord &rarr;</a></nav>
+    </div>
+    <div class="phones">
+    <div class="phone-wrap"><span>Home &middot; Today</span>
+      <div class="phone">
+        <div class="header"><h1 class="title">ExpenTable <sub>1.0.0</sub></h1></div>
+        <div class="phone__scroll">
+        <div class="buttons has-addons is-centered view-switch">
+          <button type="button" class="button is-small is-primary is-selected">Today</button>
+          <button type="button" class="button is-small">Week</button>
+        </div>
+        <div class="day-strip"><button type="button" class="day-strip__day"><span>Mon</span><span class="day-strip__count">3</span></button><button type="button" class="day-strip__day"><span>Tue</span><span class="day-strip__count">3</span></button><button type="button" class="day-strip__day is-today is-selected"><span>Wed</span><span class="day-strip__count">4</span></button><button type="button" class="day-strip__day"><span>Thu</span><span class="day-strip__count">3</span></button><button type="button" class="day-strip__day"><span>Fri</span><span class="day-strip__count">3</span></button><button type="button" class="day-strip__day"><span>Sat</span><span class="day-strip__count">4</span></button><button type="button" class="day-strip__day"><span>Sun</span><span class="day-strip__count">4</span></button></div>
+        <div class="today-summary">
+          <div class="today-summary__head">
+            <h2 class="subtitle mb-2">Today <a href="#" class="today-summary__edit"><i class="fa-regular fa-pen-to-square"></i></a></h2>
+            <span class="today-summary__meta">2 of 4 done &middot; 4 hrs</span>
+          </div>
+          <progress class="progress is-primary is-small" value="2" max="4"></progress>
+        </div>
+        <ul class="task-list">
+          <li><button type="button" class="task-card cat-1 is-done">
+            <span class="task-card__check"><i class="fa-solid fa-circle-check"></i></span>
+            <span class="task-card__body"><span class="task-card__category">Learn</span><span class="task-card__title">Coursera</span></span>
+            <span class="task-card__time">1 hr</span>
+          </button></li>
+          <li><button type="button" class="task-card cat-2 is-done">
+            <span class="task-card__check"><i class="fa-solid fa-circle-check"></i></span>
+            <span class="task-card__body"><span class="task-card__category">Writing</span><span class="task-card__title">Blog post draft</span></span>
+            <span class="task-card__time">30 mins</span>
+          </button></li>
+          <li><button type="button" class="task-card cat-3">
+            <span class="task-card__check"><i class="fa-regular fa-circle"></i></span>
+            <span class="task-card__body"><span class="task-card__category">Personal Projects</span><span class="task-card__title">Email Client (Auth) + plan next steps</span></span>
+            <span class="task-card__time">2 hrs</span>
+          </button></li>
+          <li><button type="button" class="task-card cat-4">
+            <span class="task-card__check"><i class="fa-regular fa-circle"></i></span>
+            <span class="task-card__body"><span class="task-card__category">Chores</span><span class="task-card__title">Laundry</span></span>
+            <span class="task-card__time">30 mins</span>
+          </button></li>
+        </ul>
+        </div>
+        <nav class="bottom-nav"><a href="#" class="active"><i class="fa-solid fa-calendar-day"></i><span>Home</span></a><a href="#" class=""><i class="fa-regular fa-pen-to-square"></i><span>Edit Tasks</span></a><a href="#" class=""><i class="fa-solid fa-tags"></i><span>Categories</span></a><a href="#" class=""><i class="fa-solid fa-circle-info"></i><span>About</span></a></nav>
+      </div>
+    </div>
+
+    <div class="phone-wrap"><span>Edit Tasks</span>
+      <div class="phone">
+        <div class="header"><h1 class="title">ExpenTable <sub>1.0.0</sub></h1></div>
+        <div class="phone__scroll">
+        <div class="day-strip"><button type="button" class="day-strip__day"><span>Mon</span><span class="day-strip__count">3</span></button><button type="button" class="day-strip__day"><span>Tue</span><span class="day-strip__count">3</span></button><button type="button" class="day-strip__day is-today is-selected"><span>Wed</span><span class="day-strip__count">4</span></button><button type="button" class="day-strip__day"><span>Thu</span><span class="day-strip__count">3</span></button><button type="button" class="day-strip__day"><span>Fri</span><span class="day-strip__count">3</span></button><button type="button" class="day-strip__day"><span>Sat</span><span class="day-strip__count">4</span></button><button type="button" class="day-strip__day"><span>Sun</span><span class="day-strip__count">4</span></button></div>
+        <h2 class="subtitle mb-3">Wednesday</h2>
+        <ul class="edit-task-list">
+          <li><div class="edit-card cat-1">
+            <label class="edit-card__category">Learn</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" placeholder="Nothing planned" value="Coursera" />
+              <span class="icon is-left"><i class="fa-regular fa-pen-to-square"></i></span>
+            </div>
+            <div class="edit-card__row">
+              <div class="stepper">
+                <button type="button" class="button is-primary is-outlined"><i class="fa-solid fa-minus"></i></button>
+                <span class="stepper__value"><strong>2</strong><span>pomodoros</span></span>
+                <button type="button" class="button is-primary is-outlined"><i class="fa-solid fa-plus"></i></button>
+                <span class="stepper__time">1 hr</span>
+              </div>
+              <button type="button" class="button is-small is-primary"><span class="icon is-small"><i class="fa-solid fa-repeat"></i></span><span>Repeat</span></button>
+            </div>
+            <div class="repeat-days">
+              <button type="button" class="repeat-days__day is-repeated">Mon</button><button type="button" class="repeat-days__day is-repeated">Tue</button><button type="button" class="repeat-days__day is-repeated">Wed</button><button type="button" class="repeat-days__day is-repeated">Thu</button><button type="button" class="repeat-days__day is-repeated">Fri</button><button type="button" class="repeat-days__day">Sat</button><button type="button" class="repeat-days__day">Sun</button>
+              <button type="button" class="repeat-days__day repeat-days__all">Every day</button>
+            </div>
+          </div></li>
+          <li><div class="edit-card cat-2">
+            <label class="edit-card__category">Writing</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" placeholder="Nothing planned" value="Blog post draft" />
+              <span class="icon is-left"><i class="fa-regular fa-pen-to-square"></i></span>
+            </div>
+            <div class="edit-card__row">
+              <div class="stepper">
+                <button type="button" class="button is-primary is-outlined"><i class="fa-solid fa-minus"></i></button>
+                <span class="stepper__value"><strong>1</strong><span>pomodoros</span></span>
+                <button type="button" class="button is-primary is-outlined"><i class="fa-solid fa-plus"></i></button>
+                <span class="stepper__time">30 mins</span>
+              </div>
+              <button type="button" class="button is-small is-primary is-outlined"><span class="icon is-small"><i class="fa-solid fa-repeat"></i></span><span>Repeat</span></button>
+            </div>
+          </div></li>
+          <li><div class="edit-card cat-4">
+            <label class="edit-card__category">Chores</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" placeholder="Nothing planned" value="" />
+              <span class="icon is-left"><i class="fa-regular fa-pen-to-square"></i></span>
+            </div>
+            <div class="edit-card__row"><div class="stepper">
+                <button type="button" class="button is-primary is-outlined" disabled><i class="fa-solid fa-minus"></i></button>
+                <span class="stepper__value"><strong>0</strong><span>pomodoros</span></span>
+                <button type="button" class="button is-primary is-outlined"><i class="fa-solid fa-plus"></i></button>
+                
+              </div></div>
+          </div></li>
+        </ul>
+        </div>
+        <nav class="bottom-nav"><a href="#" class=""><i class="fa-solid fa-calendar-day"></i><span>Home</span></a><a href="#" class="active"><i class="fa-regular fa-pen-to-square"></i><span>Edit Tasks</span></a><a href="#" class=""><i class="fa-solid fa-tags"></i><span>Categories</span></a><a href="#" class=""><i class="fa-solid fa-circle-info"></i><span>About</span></a></nav>
+      </div>
+    </div>
+
+    <div class="phone-wrap"><span>Categories</span>
+      <div class="phone">
+        <div class="header"><h1 class="title">ExpenTable <sub>1.0.0</sub></h1></div>
+        <div class="phone__scroll">
+        <h2 class="subtitle mb-3">Categories</h2>
+        <form class="category-list__add">
+          <div class="control"><input class="input" type="text" placeholder="New category" /></div>
+          <button type="button" class="button is-primary">Add</button>
+        </form>
+        <ul>
+          <li class="category-row cat-1">
+            <div class="control category-row__title"><input class="input" type="text" value="Learn" /></div>
+            <label class="category-row__priority"><span>Priority</span>
+              <div class="select"><select><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+            </label>
+            <button type="button" class="button is-danger is-outlined"><i class="fa-regular fa-trash-can"></i></button>
+          </li>
+          <li class="category-row cat-2">
+            <div class="control category-row__title"><input class="input" type="text" value="Writing" /></div>
+            <label class="category-row__priority"><span>Priority</span>
+              <div class="select"><select><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
+            </label>
+            <button type="button" class="button is-danger is-outlined"><i class="fa-regular fa-trash-can"></i></button>
+          </li>
+          <li class="category-row cat-3">
+            <div class="control category-row__title"><input class="input" type="text" value="Personal Projects" /></div>
+            <label class="category-row__priority"><span>Priority</span>
+              <div class="select"><select><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+            </label>
+            <button type="button" class="button is-danger is-outlined"><i class="fa-regular fa-trash-can"></i></button>
+          </li>
+          <li class="category-row cat-4">
+            <div class="control category-row__title"><input class="input is-danger" type="text" value="Learn" /><span class="has-text-danger">Cannot have repeated titles!</span></div>
+            <label class="category-row__priority"><span>Priority</span>
+              <div class="select"><select><option>3</option></select></div>
+            </label>
+            <button type="button" class="button is-danger is-outlined"><i class="fa-regular fa-trash-can"></i></button>
+          </li>
+        </ul>
+        </div>
+        <nav class="bottom-nav"><a href="#" class=""><i class="fa-solid fa-calendar-day"></i><span>Home</span></a><a href="#" class=""><i class="fa-regular fa-pen-to-square"></i><span>Edit Tasks</span></a><a href="#" class="active"><i class="fa-solid fa-tags"></i><span>Categories</span></a><a href="#" class=""><i class="fa-solid fa-circle-info"></i><span>About</span></a></nav>
+      </div>
+    </div>
+
+    <div class="phone-wrap"><span>Home &middot; Week</span>
+      <div class="phone">
+        <div class="header"><h1 class="title">ExpenTable <sub>1.0.0</sub></h1></div>
+        <div class="phone__scroll">
+        <div class="buttons has-addons is-centered view-switch">
+          <button type="button" class="button is-small">Today</button>
+          <button type="button" class="button is-small is-primary is-selected">Week</button>
+        </div>
+        <div class="table-container">
+          <table class="table is-bordered">
+            <thead><tr><th>Days</th><th>#</th><th class="cat-1">Learn</th><th class="cat-2">Writing</th><th class="cat-3">Projects</th></tr></thead>
+            <tbody>
+              <tr class=""><td>Mon</td><td><span class="qty is-less">3</span></td><td class="">Coursera</td><td class="">Blog</td><td class="">Email client</td></tr>
+              <tr class=""><td>Tue</td><td><span class="qty is-less">3</span></td><td class="">Coursera</td><td class="">Blog</td><td class="">Email client</td></tr>
+              <tr class="it-is-today"><td>Wed</td><td><span class="qty is-medium">4</span></td><td class="task-done">Coursera</td><td class="task-done">Blog</td><td class="">Email client</td></tr>
+              <tr class=""><td>Thu</td><td><span class="qty is-less">3</span></td><td class="">Coursera</td><td class="">-</td><td class="">Email client</td></tr>
+              <tr class=""><td>Fri</td><td><span class="qty is-less">3</span></td><td class="">Coursera</td><td class="">Blog</td><td class="">Email client</td></tr>
+              <tr class=""><td>Sat</td><td><span class="qty is-medium">4</span></td><td class="">-</td><td class="">Blog</td><td class="">Side project</td></tr>
+              <tr class=""><td>Sun</td><td><span class="qty is-medium">4</span></td><td class="">-</td><td class="">Journal</td><td class="">Side project</td></tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+        <nav class="bottom-nav"><a href="#" class="active"><i class="fa-solid fa-calendar-day"></i><span>Home</span></a><a href="#" class=""><i class="fa-regular fa-pen-to-square"></i><span>Edit Tasks</span></a><a href="#" class=""><i class="fa-solid fa-tags"></i><span>Categories</span></a><a href="#" class=""><i class="fa-solid fa-circle-info"></i><span>About</span></a></nav>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>
